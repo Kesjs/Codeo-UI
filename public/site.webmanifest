@@ -1,0 +1,21 @@
+{
+  "name": "Codeo UI",
+  "short_name": "Codeo UI",
+  "description": "Transformez vos maquettes en code en un clic",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#07b300",
+  "icons": [
+    {
+      "src": "/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
