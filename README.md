@@ -1,171 +1,116 @@
-# Codeo - Transform Screenshots to Code
+# Codeo UI - Vision Engine AI (v2.0)
 
-AI-powered tool that converts any UI screenshot into clean, production-ready code.
+Codeo UI est une plateforme SaaS de pointe qui transforme instantanément les captures d'écran d'interfaces utilisateur (UI) en composants de code propres, sémantiques et prêts pour la production (React, Vue, HTML).
 
-## 🚀 Features
+Propulsé par le moteur propriétaire V-AST (Visual Abstract Syntax Tree), l'outil garantit une fidélité de conversion de 99.8% en éliminant les hallucinations structurelles communes aux IA génératives classiques.
 
-- **Smart Recognition**: Advanced AI detects UI elements, layouts, and design patterns
-- **Multiple Frameworks**: Support for React, Vue.js, HTML/CSS, Tailwind CSS, Bootstrap
-- **Real-time Preview**: See your code generated instantly as you upload screenshots
-- **Code Editor**: Built-in Monaco editor with syntax highlighting
-- **Export Options**: Copy to clipboard or download generated code
-- **Project Management**: Organize and track all your conversions
-- **Team Collaboration**: Work together with your team (Pro plan)
+## 🏗️ Architecture du Projet
 
-## 🏗️ Tech Stack
+### 1. Partie Pre-Connexion (Landing Page & Démo) - COMPLÉTÉ
+La porte d'entrée conçue pour la conversion maximale grâce à une approche "Proof of Value" (Preuve de valeur).
 
-### Frontend
-- **Next.js 14** - React framework with App Router
-- **TypeScript** - Type safety
-- **Tailwind CSS** - Utility-first CSS framework
-- **Shadcn/UI** - Modern React components
-- **Monaco Editor** - Code editing experience
-- **Lucide React** - Beautiful icons
+- **Hero Interactive** : Présentation du moteur Neural-Vision-V2 avec un cycle de frameworks dynamique.
+- **Live Demo (Controlled)** : 
+  - Visualisation du scanneur laser sur une UI prédéfinie.
+  - Génération en temps réel du code React/Vue/HTML.
+  - Affichage du V-AST JSON Tree pour prouver la profondeur technique.
+- **Section Technique "How it works"** : 
+  - Explication pédagogique du pipeline : Visual Input → V-AST Bridge → Code Generation.
+  - Affichage en modale pour ne pas surcharger le tunnel de vente.
+- **Pricing Stratégique** : Système basé sur les Scans IA (Crédits) plutôt que sur les exports simples.
 
-### Backend (Planned)
-- **NestJS** - Node.js framework
-- **Supabase** - Database and authentication
-- **Bull Queue** - Job processing for AI tasks
-- **OpenCV + FastSAM** - Computer vision pipeline
+### 2. Partie Post-Connexion (Dashboard & Workbench) - EN COURS
+L'espace de travail productif pour les développeurs et designers.
+
+- **Workspace Dashboard** :
+  - Gestion du solde de crédits (Scans IA).
+  - Zone de Drag & Drop pour l'upload de fichiers personnels (PNG, JPG).
+  - Historique des projets avec miniatures et métadonnées.
+
+- **Le Workbench (L'Éditeur)** :
+  - Dual View : Image source à gauche, Code généré à droite.
+  - Framework Switcher : Bascule instantanée entre React (Tailwind), Vue et HTML5.
+  - Smart Selection : Cliquer sur une zone de l'image met en surbrillance le bloc de code correspondant.
+
+- **User Settings & Billing** :
+  - Gestion de l'abonnement (Upgrade vers Pro/Business).
+  - Préférences d'export (TypeScript vs JavaScript, Espacements, Prefixes Tailwind).
+
+## 🛠 Stack Technique
+
+- **Framework** : Next.js 14 (App Router)
+- **Style** : Tailwind CSS
+- **Animations** : Framer Motion & Lucide React
+- **Moteur Vision** : V-AST Neural Engine (Propriétaire)
+
+### Design System
+
+- **Couleur Primaire** : #09d600 (codeo-green)
+- **Fond** : #020617 (slate-950)
+- **Typographie** : JetBrains Mono (pour le code) & Sans-serif (Interface)
+
+## 📈 Roadmap Post-Connexion
+
+- **Phase 1** : Création du Dashboard Layout & Système d'upload.
+- **Phase 2** : Intégration de la logique de Scan (Simulation de l'analyse V-AST sur image utilisateur).
+- **Phase 3** : Workbench interactif avec option "Copier le code".
+- **Phase 4** : Système de crédits et persistance des projets (Base de données).
+
+## 💎 Points Forts du Produit
+
+- **"Zéro Hallucination"** : Contrairement aux LLM standards, le passage par le V-AST structure le code logiquement avant la génération.
+- **"Scan Once, Export Everywhere"** : Un crédit consommé permet l'export illimité dans tous les frameworks supportés pour cette image.
+- **"Production-Ready"** : Le code généré n'est pas une "soupe de div", mais un code respectant l'accessibilité et les bonnes pratiques Tailwind.
 
 ## 📦 Installation
 
-1. Clone the repository:
+1. Clonez le repository :
 ```bash
-git clone <repository-url>
-cd codeo-ui
+git clone https://github.com/Kesjs/Codeo-UI.git
+cd Codeo-UI
 ```
 
-2. Install dependencies:
+2. Installez les dépendances :
 ```bash
 npm install
 ```
 
-3. Run the development server:
+3. Lancez le serveur de développement :
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+4. Ouvrez [http://localhost:3000](http://localhost:3000) dans votre navigateur.
 
-## 🎯 Pages
+## 🚀 Déploiement
 
-- **/** - Landing page with hero, features, and CTA
-- **/pricing** - Pricing plans (Free, Pro, Team)
-- **/login** - User authentication
-- **/signup** - User registration
-- **/dashboard** - User dashboard with projects and stats
-- **/workspace** - Main workspace for screenshot-to-code conversion
+### Vercel (Recommandé)
 
-## 🔧 Configuration
+1. Poussez votre code sur GitHub
+2. Connectez votre repository à Vercel
+3. Configurez les variables d'environnement
+4. Déployez !
 
-### Environment Variables
+### Autres Plateformes
 
-Create a `.env.local` file in the root directory:
-
-```env
-# Supabase Configuration
-NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
-NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
-SUPABASE_SERVICE_ROLE_KEY=your_supabase_service_role_key
-
-# NextAuth.js
-NEXTAUTH_SECRET=your_nextauth_secret
-NEXTAUTH_URL=http://localhost:3000
-
-# AI Pipeline (when implemented)
-AI_SERVICE_URL=your_ai_service_url
-```
-
-## 🎨 Design System
-
-The project uses a consistent design system based on:
-
-- **Colors**: Blue primary palette with gray neutrals
-- **Typography**: Inter font family
-- **Spacing**: Tailwind's default spacing scale
-- **Components**: Shadcn/UI component library
-- **Responsive**: Mobile-first approach
-
-## 📱 Responsive Design
-
-All pages are fully responsive:
-- **Mobile**: 320px and up
-- **Tablet**: 768px and up  
-- **Desktop**: 1024px and up
-
-## 🔒 Authentication
-
-Authentication is handled by NextAuth.js with support for:
-- Email/password authentication
-- Google OAuth
-- GitHub OAuth
-
-## 💾 Project Structure
-
-```
-codeo-ui/
-├── app/                    # Next.js App Router
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Home page
-│   ├── login/             # Login page
-│   ├── signup/            # Signup page
-│   ├── pricing/           # Pricing page
-│   ├── dashboard/         # Dashboard page
-│   └── workspace/         # Workspace page
-├── components/            # Reusable components
-│   └── ui/               # Shadcn/UI components
-├── lib/                   # Utility functions
-└── public/               # Static assets
-```
-
-## 🚀 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Connect your repository to Vercel
-3. Configure environment variables
-4. Deploy!
-
-### Other Platforms
-
-The app can be deployed to any platform that supports Next.js:
+L'application peut être déployée sur toute plateforme supportant Next.js :
 - Netlify
 - Railway
 - DigitalOcean
 - AWS Amplify
 
-## 🤝 Contributing
+## 🤝 Contribuer
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Commit your changes: `git commit -m 'Add amazing feature'`
-4. Push to the branch: `git push origin feature/amazing-feature`
-5. Open a Pull Request
+1. Fork le repository
+2. Créez une branche de fonctionnalité : `git checkout -b feature/amazing-feature`
+3. Commitez vos changements : `git commit -m 'Add amazing feature'`
+4. Pushez vers la branche : `git push origin feature/amazing-feature`
+5. Ouvrez une Pull Request
 
-## 📄 License
+## 📄 Licence
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-If you have any questions or need help, please:
-- Open an issue on GitHub
-- Contact our support team
-- Check our documentation
-
-## 🗺️ Roadmap
-
-- [ ] AI pipeline implementation
-- [ ] Team collaboration features
-- [ ] Advanced code customization
-- [ ] Plugin system
-- [ ] Mobile app
-- [ ] API access
-- [ ] Custom branding options
+Ce projet est sous licence MIT License - voir le fichier [LICENSE](LICENSE) pour les détails.
 
 ---
 
-Built with ❤️ by the Codeo team
+Développé avec passion pour les bâtisseurs du web. ✌️
