@@ -30,6 +30,19 @@ export function Header() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    
+    // Nettoyage lors du démontage du composant
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen])
+
   const underlineClass = "relative no-underline outline-none border-none ring-0 decoration-transparent after:absolute after:bottom-[-4px] after:left-0 after:h-[2px] after:w-0 after:bg-codeo-green after:transition-all after:duration-300 hover:after:w-full hover:text-codeo-green";
 
   return (
@@ -114,9 +127,24 @@ export function Header() {
         </button>
       </div>
 
+      {/* --- FOND SEMI-TRANSPARENT --- */}
+      {isMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/50 z-30"
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+      
       {/* --- MENU MOBILE --- */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-[65px] bottom-0 bg-white z-40 p-6 flex flex-col gap-6 animate-in slide-in-from-right duration-300">
+        <div className="md:hidden fixed right-0 top-0 h-screen w-4/5 max-w-sm bg-white z-40 p-6 flex flex-col gap-6 animate-in slide-in-from-right duration-300 overflow-y-auto">
+          {/* Bouton de fermeture */}
+          <button 
+            className="absolute right-6 top-6 p-2 text-slate-700 hover:bg-slate-100 rounded-full transition-colors"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            <X className="h-6 w-6" />
+          </button>
           <Link href="#workflow" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3 text-xl font-extrabold text-slate-900 border-b border-slate-50 py-4 no-underline outline-none decoration-transparent">
             <Zap className="text-codeo-green h-6 w-6" /> Workflow
           </Link>
@@ -131,14 +159,14 @@ export function Header() {
             <Link 
               href="/login" 
               onClick={() => setIsMenuOpen(false)} 
-              className="w-full py-4 text-center font-extrabold text-slate-700 bg-white border border-slate-200 rounded-2xl no-underline outline-none"
+              className="w-full py-4 text-center font-extrabold text-slate-700 bg-white border-2 border-slate-200 rounded-2xl no-underline outline-none hover:bg-slate-50 hover:text-codeo-green active:bg-slate-100 transition-colors duration-200"
             >
               Log In
             </Link>
             <Link 
               href="/register" 
               onClick={() => setIsMenuOpen(false)} 
-              className="w-full py-4 text-center font-extrabold text-white bg-codeo-green rounded-2xl shadow-lg no-underline outline-none"
+              className="w-full py-4 text-center font-extrabold text-white bg-codeo-green rounded-2xl shadow-lg no-underline outline-none hover:bg-codeo-green/90 active:bg-codeo-green/80 transition-colors duration-200 transform hover:-translate-y-0.5 active:translate-y-0"
             >
               Get Started
             </Link>

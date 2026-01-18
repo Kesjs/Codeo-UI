@@ -37,7 +37,7 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               {[Twitter, Github, Linkedin].map((Icon, i) => (
-                <Link key={i} href="#" className="p-2.5 rounded-xl bg-slate-50 text-slate-400 hover:text-[#07b300] hover:bg-[#07b300]/10 transition-all border border-transparent hover:border-[#07b300]/20">
+                <Link key={i} href="#" className="p-2.5 rounded-lg bg-slate-50 text-slate-400 hover:text-[#07b300] hover:bg-[#07b300]/10 transition-all border border-transparent hover:border-[#07b300]/20">
                   <Icon className="size-5" />
                 </Link>
               ))}
@@ -45,7 +45,7 @@ export function Footer() {
           </div>
 
           {/* Newsletter Box */}
-          <div className="lg:col-span-7 bg-slate-50 rounded-[2rem] p-8 lg:p-10 border border-slate-100 relative overflow-hidden">
+          <div className="lg:col-span-7 bg-slate-50 rounded-2xl p-6 lg:p-8 border border-slate-100 relative overflow-hidden">
             <div className="relative z-10">
               <h3 className="text-xl font-black text-slate-900 mb-2">Restez à l'avant-garde</h3>
               <p className="text-slate-600 font-medium mb-6">Recevez nos dernières mises à jour sur le Vision Engine et nos nouveaux frameworks.</p>
@@ -55,9 +55,9 @@ export function Footer() {
                   type="email" 
                   required
                   placeholder="votre@email.com"
-                  className="flex-grow h-14 px-6 rounded-2xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#07b300]/20 focus:border-[#07b300] transition-all font-medium text-slate-900"
+                  className="flex-grow h-14 px-6 rounded-xl bg-white border border-slate-200 focus:outline-none focus:ring-2 focus:ring-[#07b300]/20 focus:border-[#07b300] transition-all font-medium text-slate-900"
                 />
-                <Button className="h-14 px-8 bg-[#07b300] hover:bg-[#069a00] text-white font-black rounded-2xl transition-all shadow-lg shadow-[#07b300]/20">
+                <Button className="h-14 px-8 bg-[#07b300] hover:bg-[#069a00] text-white font-black rounded-xl transition-all shadow-lg shadow-[#07b300]/20">
                   {subscribed ? (
                     <span className="flex items-center gap-2"><CheckCircle2 className="size-5" /> Inscrit</span>
                   ) : (
