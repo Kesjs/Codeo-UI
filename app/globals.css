@@ -491,3 +491,43 @@ div:has(> .language-vue) {
   border-left: 4px solid hsl(123.8, 69.2%, 50.4%);
   background: rgba(44, 255, 0, 0.05);
 }
+
+/* --- Correction universelle des champs Codeo UI --- */
+
+/* Conteneur d'input avec icône */
+.codeo-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* L'icône à gauche (Mail, Lock, etc.) */
+.codeo-input-icon-left {
+  position: absolute;
+  left: 0;
+  width: 3rem; /* 48px correspond à pl-12 */
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* L'icône à droite (L'œil du password) */
+.codeo-input-icon-right {
+  position: absolute;
+  right: 0;
+  width: 3.5rem; /* 56px correspond à pr-14 */
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* L'Input lui-même */
+.codeo-input-field {
+  width: 100%;
+  padding-left: 3rem !important; /* Force le texte à démarrer après l'icône */
+}
+
+.codeo-input-field.has-right-icon {
+  padding-right: 3.5rem !important; /* Évite le texte sous l'icône de droite */
+}

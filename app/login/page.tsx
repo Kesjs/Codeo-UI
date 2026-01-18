@@ -3,191 +3,240 @@
 import React, { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowLeft, Eye, EyeOff, Mail, Lock, Loader2, Sparkles } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  ArrowLeft, 
+  Eye, 
+  EyeOff, 
+  Mail, 
+  Lock, 
+  Loader2, 
+  Sparkles
+} from 'lucide-react'
+import { FcGoogle } from 'react-icons/fc'
+import { FaGithub } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
 export default function LoginPage() {
   const router = useRouter()
-  
   const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-  })
+  const [formData, setFormData] = useState({ email: '', password: '' })
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+    if (errorMsg) setErrorMsg(null)
   }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
     setErrorMsg(null)
-
     try {
-      // TODO: Implémenter la logique de connexion
-      console.log('Tentative de connexion avec:', formData.email)
-      // Simulation de délai pour le chargement
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
-      // Redirection après connexion réussie
+      // Simulation de connexion
+      await new Promise((resolve) => setTimeout(resolve, 1500))
       router.push('/dashboard')
     } catch (error) {
-      setErrorMsg('Échec de la connexion. Veuillez réessayer.')
-      console.error('Erreur de connexion:', error)
+      setErrorMsg('Identifiants incorrects. Veuillez réessayer.')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleSocialLogin = (provider: 'github' | 'google') => {
-    // TODO: Implémenter la connexion sociale
-    console.log(`Tentative de connexion avec ${provider}`)
-    setErrorMsg(`Connexion avec ${provider} non implémentée pour le moment.`)
-  }
-
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
-      {/* Background Decor (Exactement comme Register) */}
-      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#07b300_0.5px,transparent_0.5px)] [background-size:20px_20px] opacity-[0.1] -z-10" />
+    <div className="min-h-screen bg-codeo-light-bg flex flex-col items-center justify-center p-6 relative overflow-hidden font-sans">
       
-      <div className="w-full max-w-[380px] relative z-10">
-        
-        {/* Back Button */}
-        <div className="flex justify-start mb-4">
+      {/* 1. STYLES DE FIXATION (Chevauchement & Autofill) */}
+      <style jsx global>{`
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover, 
+        input:-webkit-autofill:focus {
+          -webkit-text-fill-color: #0f172a;
+          -webkit-box-shadow: 0 0 0px 1000px white inset;
+          transition: background-color 5000s ease-in-out 0s;
+        }
+      `}</style>
+
+      {/* Background Pattern */}
+      <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2307b300' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")` }} 
+      />
+
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-[400px] relative z-10"
+      >
+        <div className="bg-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-slate-100 p-8 md:p-10 relative overflow-hidden">
           <Link 
             href="/" 
-            className="group inline-flex items-center text-xs font-bold text-slate-500 hover:text-codeo-green transition-all"
+            className="absolute top-6 left-6 group"
+            title="Retour à l'accueil"
           >
-            <ArrowLeft className="h-3.5 w-3.5 mr-1.5 transition-transform group-hover:-translate-x-1" />
-            Back to Home
+            <span className="flex items-center justify-center h-9 w-9 rounded-full bg-white shadow-sm border border-slate-200 group-hover:border-codeo-green/50 transition-all duration-300 group-hover:shadow-md group-hover:bg-slate-50">
+              <ArrowLeft className="h-4 w-4 text-slate-500 group-hover:text-codeo-green transition-colors" />
+            </span>
           </Link>
-        </div>
-
-        {/* Login Card */}
-        <div className="bg-white rounded-xl shadow-lg shadow-slate-200/50 border border-slate-200 p-6 md:p-8">
+          
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-black text-slate-900 mb-1 tracking-tight">Welcome Back</h1>
-            <p className="text-xs text-slate-500 font-medium italic">Login to your <span className="text-codeo-green font-bold">Codeo</span> account</p>
+            <div className="inline-flex items-center justify-center size-12 bg-codeo-green/10 rounded-lg mb-4">
+              <Lock className="size-6 text-codeo-green" />
+            </div>
+            <h1 className="text-2xl font-black text-slate-900 tracking-tight mb-1">
+              Prêt à créer ?
+            </h1>
+            <p className="text-slate-500 text-xs font-medium">
+              Accédez à votre espace <span className="text-codeo-green font-bold">Codeo UI</span>
+            </p>
           </div>
 
-          <form className="space-y-4" onSubmit={handleLogin}>
-            {/* Email */}
-            <div className="space-y-1.5">
-              <label className="text-[10px] font-black uppercase tracking-wider text-slate-400 ml-0.5">Work Email</label>
+          <form onSubmit={handleLogin} className="space-y-6">
+            
+            {/* Champ Email */}
+            <div className="space-y-2 group">
+              <div className="flex items-center ml-1">
+                <div className="w-6 flex justify-center text-slate-400 group-focus-within:text-codeo-green transition-colors duration-300">
+                  <Mail className="size-4" />
+                </div>
+                <label htmlFor="email" className="text-[11px] font-black uppercase tracking-[0.1em] text-slate-400 ml-2">
+                  Email Professionnel
+                </label>
+              </div>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
+                  id="email"
                   name="email"
-                  type="email"
+                  type="email" 
+                  required
                   value={formData.email}
                   onChange={handleChange}
-                  required
-                  placeholder=""
-                  className="h-11 pl-10 rounded-lg border-slate-200 bg-slate-50/30 focus:bg-white focus:ring-1 focus:ring-codeo-green transition-all text-sm"
+                  placeholder="alex@entreprise.com"
+                  className="h-12 pl-4 pr-4 w-full rounded-xl border border-white bg-white transition-all duration-150 text-slate-900 font-medium placeholder:text-slate-400 placeholder:font-normal focus:outline-none focus:border-white focus:ring-0 focus:ring-offset-0"
                 />
               </div>
             </div>
 
-            {/* Password */}
-            <div className="space-y-1.5">
-              <div className="flex justify-between items-center px-0.5">
-                <label className="text-[10px] font-black uppercase tracking-wider text-slate-400">Password</label>
-                <Link href="/forgot-password" className="text-[10px] font-bold text-codeo-green hover:underline">
-                  Forgot?
+            {/* Champ Mot de passe */}
+            <div className="space-y-2 group">
+              <div className="flex items-center justify-between ml-1">
+                <div className="flex items-center">
+                  <div className="w-6 flex justify-center text-slate-400 group-focus-within:text-codeo-green transition-colors duration-300">
+                    <Lock className="size-4" />
+                  </div>
+                  <label htmlFor="password" className="text-[11px] font-black uppercase tracking-[0.1em] text-slate-400 ml-2">
+                    Mot de passe
+                  </label>
+                </div>
+                <Link href="/forgot-password" className="text-[11px] font-bold text-codeo-green hover:underline">
+                  Oublié ?
                 </Link>
               </div>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
                 <Input
+                  id="password"
                   name="password"
                   type={showPassword ? 'text' : 'password'}
+                  required
                   value={formData.password}
                   onChange={handleChange}
-                  required
-                  placeholder=""
-                  className="h-11 pl-10 rounded-lg border-slate-200 bg-slate-50/30 focus:bg-white focus:ring-1 focus:ring-codeo-green transition-all text-sm"
+                  placeholder="••••••••"
+                  className={`h-12 pl-4 pr-12 w-full rounded-xl border border-white bg-white transition-all duration-150 text-slate-900 font-medium placeholder:text-slate-400 focus:outline-none focus:border-white focus:ring-0 focus:ring-offset-0 ${!showPassword ? 'tracking-[0.3em] font-mono' : 'tracking-normal'}`}
                 />
                 <button
                   type="button"
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
                   onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-0 top-0 h-12 w-12 flex items-center justify-center text-slate-400 hover:text-codeo-green transition-colors"
                 >
-                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                  {showPassword ? <EyeOff className="size-5" /> : <Eye className="size-5" />}
                 </button>
               </div>
             </div>
 
-            {errorMsg && (
-              <p className="text-[11px] font-bold text-red-500 px-1 animate-pulse">
-                {errorMsg}
-              </p>
-            )}
+            <AnimatePresence>
+              {errorMsg && (
+                <motion.p 
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="text-xs font-bold text-red-500 bg-red-50 p-3 rounded-xl border border-red-100"
+                >
+                  {errorMsg}
+                </motion.p>
+              )}
+            </AnimatePresence>
 
-            <Button 
-              type="submit" 
+            <Button
+              type="submit"
               disabled={loading}
-              className="w-full h-11 bg-codeo-green hover:bg-[#069a00] text-white font-bold text-sm rounded-lg shadow-md shadow-codeo-green/10 transition-all active:scale-[0.98]"
+              className="w-full h-12 bg-codeo-green hover:bg-[#069a00] text-white font-bold text-base rounded-lg shadow-md hover:shadow-lg shadow-codeo-green/20 transition-all active:scale-[0.98] disabled:opacity-70"
             >
-              {loading ? <Loader2 className="size-4 animate-spin" /> : 'Sign In'}
+              {loading ? <Loader2 className="size-6 animate-spin mx-auto" /> : 'Se connecter'}
             </Button>
           </form>
 
-          {/* Social Logins (Exactement le même bloc que Register) */}
-          <div className="relative my-8">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-slate-100" />
+          {/* Social Logins */}
+          <div className="mt-10">
+            <div className="relative mb-8 text-center">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-100"></div></div>
+              <span className="relative px-4 bg-white text-[10px] font-black text-slate-400 uppercase tracking-widest">Accès rapide via</span>
             </div>
-            <div className="relative flex justify-center text-[10px] uppercase font-black tracking-widest">
-              <span className="px-3 bg-white text-slate-300">Or use</span>
+
+            <div className="grid grid-cols-2 gap-4">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Déclencher le next-toploader
+                  const event = new Event('mousedown');
+                  document.dispatchEvent(event);
+                  // Rediriger après un court délai pour laisser le temps à l'animation de se lancer
+                  setTimeout(() => {
+                    window.location.href = '/api/auth/google';
+                  }, 150);
+                }}
+                className="flex items-center justify-center h-14 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 transition-all group relative overflow-hidden"
+              >
+                <FcGoogle className="size-5 group-hover:scale-110 transition-transform" />
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-full group-hover:translate-x-full"></span>
+              </button>
+              
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  // Déclencher le next-toploader
+                  const event = new Event('mousedown');
+                  document.dispatchEvent(event);
+                  // Rediriger après un court délai
+                  setTimeout(() => {
+                    window.location.href = '/api/auth/github';
+                  }, 150);
+                }}
+                className="flex items-center justify-center h-14 rounded-2xl border border-slate-100 bg-white hover:bg-slate-50 transition-all group relative overflow-hidden"
+              >
+                <FaGithub className="size-5 text-gray-800 group-hover:scale-110 transition-transform" />
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 -translate-x-full group-hover:translate-x-full"></span>
+              </button>
             </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <Button 
-              onClick={() => handleSocialLogin('google')}
-              variant="outline" 
-              className="h-10 rounded-lg border-slate-200 font-bold text-xs gap-2"
-            >
-              <svg className="size-4" viewBox="0 0 24 24">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
-              </svg>
-              Google
-            </Button>
-            <Button 
-              onClick={() => handleSocialLogin('github')}
-              variant="outline" 
-              className="h-10 rounded-lg border-slate-200 font-bold text-xs gap-2"
-            >
-              <svg className="size-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              GitHub
-            </Button>
-          </div>
-
-          <div className="mt-8 text-center">
-            <p className="text-slate-400 font-bold text-[11px]">
-              New to Codeo?{' '}
-              <Link href="/register" className="text-codeo-green font-black hover:underline ml-1">
-                Create Account
-              </Link>
-            </p>
           </div>
         </div>
 
-        {/* Secure Badge */}
-        <div className="mt-6 flex justify-center items-center gap-1.5 opacity-40">
-           <Sparkles className="size-3 text-slate-400" />
-           <span className="text-[9px] font-black uppercase tracking-[0.15em] text-slate-400">Secure AI Authentication</span>
+        <div className="mt-8 text-center">
+          <p className="text-sm font-medium text-slate-400">
+            Pas encore de compte ?{' '}
+            <Link href="/register" className="text-codeo-green font-black hover:underline underline-offset-4">
+              S'inscrire gratuitement
+            </Link>
+          </p>
         </div>
-      </div>
+
+        <div className="mt-10 flex justify-center items-center gap-2 opacity-30 grayscale">
+          <Sparkles className="size-4 text-slate-400" />
+          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600">
+            Enterprise Grade Security
+          </span>
+        </div>
+      </motion.div>
     </div>
   )
 }

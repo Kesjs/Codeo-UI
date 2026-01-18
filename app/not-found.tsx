@@ -2,16 +2,11 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowLeft, Zap, Construction, Home, Search, LifeBuoy } from 'lucide-react'
-import { Header } from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import { Zap, Construction, Home, Search, LifeBuoy } from 'lucide-react'
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
-      {/* Header du landing page */}
-      <Header />
-
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col pt-16">
       <main className="flex-grow flex items-center justify-center py-20 px-6">
         <div className="max-w-3xl w-full text-center">
           {/* Illustration 404 Stylisée */}
@@ -62,10 +57,7 @@ export default function NotFound() {
         </div>
       </main>
 
-      {/* Footer du landing page */}
-      <div className="mt-auto border-t-2 border-slate-200 bg-white">
-        <Footer />
-      </div>
+      {/* Pas de footer ici car il est géré par le layout */}
     </div>
   )
 }

@@ -62,9 +62,9 @@ export default function OnboardingPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Welcome to Codeo
             </h2>
-            <p className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
+            <div className="text-lg text-gray-600 mb-8 max-w-md mx-auto">
               Transform your screenshots into production-ready code with AI. Let's set up your preferences to get the best experience.
-            </p>
+            </div>
             <Button onClick={handleNext} className="w-full">
               Get Started
               <ArrowRight className="ml-2 h-5 w-5" />
@@ -78,9 +78,9 @@ export default function OnboardingPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Choose Your Framework
             </h2>
-            <p className="text-gray-600 mb-8">
+            <div className="text-gray-600 mb-8">
               Select the framework you'll be working with most often. We'll optimize your experience accordingly.
-            </p>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               {frameworks.map((framework) => (
                 <button
@@ -115,9 +115,9 @@ export default function OnboardingPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Set Your Preferences
             </h2>
-            <p className="text-gray-600 mb-8">
+            <div className="text-gray-600 mb-8">
               Customize your Codeo experience. These settings help us personalize your workflow.
-            </p>
+            </div>
             <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -165,9 +165,9 @@ export default function OnboardingPage() {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">
               Define Your Role
             </h2>
-            <p className="text-gray-600 mb-8">
+            <div className="text-gray-600 mb-8">
               Tell us how you plan to use Codeo. This helps us tailor the experience to your needs.
-            </p>
+            </div>
             <div className="grid grid-cols-2 gap-4">
               {roles.map((role) => (
                 <button
@@ -212,9 +212,9 @@ export default function OnboardingPage() {
             <h1 className="text-2xl font-bold text-gray-900 mb-4">
               Setup Complete!
             </h1>
-            <p className="text-gray-600 mb-8">
+            <div className="text-gray-600 mb-8">
               Your workspace is ready. You can now start converting screenshots to code.
-            </p>
+            </div>
             <div className="bg-gray-50 rounded-lg p-4 mb-6">
               <div className="text-sm text-gray-700 mb-2">
                 <strong>Framework:</strong> {frameworks.find(f => f.id === selectedFramework)?.name || 'Not selected'}
