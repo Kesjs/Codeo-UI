@@ -9,18 +9,8 @@ import './globals.css'
 import Loading from '@/components/Loading'
 import NextTopLoader from 'nextjs-toploader'
 
-// Configuration des polices
-const inter = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-inter',
-})
-
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jetbrains-mono',
-})
+// Import des configurations de polices
+import { inter, jetbrainsMono } from './fonts'
 
 // Import dynamique des composants côté client
 const Header = dynamic(() => import('@/components/layout/Header'), { 

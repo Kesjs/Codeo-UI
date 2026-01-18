@@ -12,7 +12,8 @@ interface Project {
 }
 
 interface ProjectCardProps {
-  project: Project
+  project: Project;
+  onClick?: () => void;
 }
 
 const getFrameworkIcon = (framework: string) => {
@@ -37,7 +38,7 @@ const getFrameworkIcon = (framework: string) => {
   }
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
+export default function ProjectCard({ project, onClick }: ProjectCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('fr-FR', { 
@@ -49,12 +50,12 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
   return (
     <motion.div
-      whileHover={{ 
-        y: -4,
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
-      }}
-      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-lg cursor-pointer group"
+      className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer"
+      whileHover={{ y: -2 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      onClick={onClick}
     >
       {/* Thumbnail */}
       <div className="aspect-video bg-slate-100 relative overflow-hidden">

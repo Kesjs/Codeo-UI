@@ -285,28 +285,28 @@ export default function Home() {
             </div>
         </header>
 
-        <main class="mx-auto max-w-7xl px-6 pt-32 pb-20 md:pt-48">
-            <div class="grid items-center gap-12 lg:grid-cols-2">
+        <main class="mx-auto max-w-7xl px-4 sm:px-6 pt-24 sm:pt-32 pb-16 sm:pb-20 md:pt-48">
+            <div class="grid items-center gap-8 sm:gap-12 lg:grid-cols-2">
                 
-                <div class="text-left">
-                    <div class="mb-6 inline-flex items-center space-x-2 rounded-full border border-blue-200 bg-blue-100/50 px-4 py-1.5">
-                        <span class="h-2 w-2 animate-pulse rounded-full bg-blue-600"></span>
-                        <span class="text-xs font-bold uppercase tracking-widest text-blue-700">
+                <div class="text-center sm:text-left">
+                    <div class="mb-4 sm:mb-6 inline-flex items-center space-x-2 rounded-full border border-blue-200 bg-blue-100/50 px-3 sm:px-4 py-1 sm:py-1.5">
+                        <span class="h-1.5 w-1.5 sm:h-2 sm:w-2 animate-pulse rounded-full bg-blue-600"></span>
+                        <span class="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-blue-700">
                             New: Precision Engine 2.0
                         </span>
                     </div>
 
-                    <h1 class="mb-6 text-5xl font-black leading-[1.1] text-slate-800 md:text-7xl">
-                        Design your future <br />
-                        <span class="text-blue-600">with precision</span>
+                    <h1 class="mb-4 sm:mb-6 text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-tight text-slate-800 px-2 sm:px-0">
+                        <span class="block sm:inline">Design your future</span>{' '}
+                        <span class="text-blue-600 block sm:inline">with precision</span>
                     </h1>
 
-                    <p class="mb-10 max-w-xl text-xl leading-relaxed text-gray-600">
+                    <p class="mb-8 sm:mb-10 max-w-xl text-sm xs:text-base sm:text-lg md:text-xl leading-relaxed text-gray-600 px-2 sm:px-0">
                         Experience the power of modern minimalism with a tool built for professionals. Streamline your workflow and elevate your results today.
                     </p>
 
-                    <div class="flex flex-col gap-4 sm:flex-row">
-                        <button class="rounded-2xl bg-blue-600 px-8 py-4 text-lg font-bold text-white shadow-xl shadow-blue-600/20 transition-transform hover:scale-105">
+                    <div class="flex flex-col gap-4 sm:flex-row px-4 sm:px-0">
+                        <button class="rounded-2xl bg-blue-600 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-bold text-white shadow-xl shadow-blue-600/20 transition-transform hover:scale-105">
                             Get Started for Free
                         </button>
                         <button class="flex items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white px-8 py-4 text-lg font-bold text-slate-800 transition-all hover:bg-gray-50">
@@ -503,93 +503,94 @@ export default HeroSection;`,
     <div className="min-h-screen bg-codeo-light-bg font-sans text-slate-900 selection:bg-codeo-green/30">
       <main className="bg-codeo-light-bg">
         {/* HERO SECTION */}
-        <section
-          id="/"
-          className="relative pt-16 pb-20 overflow-hidden text-center transition-colors duration-300"
-          style={{ backgroundColor: languages[activeLangIndex].heroBg }}
-          onMouseEnter={() => setPauseLangCycle(true)}
-          onMouseLeave={() => setPauseLangCycle(false)}
-        >
-          <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] blur-[140px] rounded-full transition-colors duration-1000 opacity-20 pointer-events-none"
-            style={{ backgroundColor: languages[activeLangIndex].glow }}
-          />
-
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10 pt-0">
-            <div className="flex flex-col items-center gap-4 mb-16 -mt-8">
-              <div className="inline-flex items-center gap-2 px-3 py-1 text-codeo-green text-xs font-black uppercase tracking-widest">
-                <Sparkles className="size-3" /> Vision Engine AI v2.0
-              </div>
-              <h1 className="text-slate-900 tracking-tighter text-5xl sm:text-7xl lg:text-[110px] font-black leading-[0.9] max-w-[1200px]">
-                L'intelligence visuelle au service de <br />
-                <span className="text-codeo-green">vos pixels.</span>
-              </h1>
-
-              <div className="text-slate-500 text-lg md:text-xl font-medium max-w-[1000px] leading-relaxed">
-                <p className="mb-2">Propulsé par notre moteur de vision propriétaire, donnez vie à vos designs</p>
-                <div className="flex items-center justify-center gap-x-3 whitespace-nowrap">
-                  <span>en convertissant vos captures d'écran UI en composants</span>
-                  <div 
-  className="relative inline-flex items-center justify-center w-[110px] h-10 overflow-hidden align-middle"
-  onMouseEnter={() => handleLangHover(true)}
-  onMouseLeave={() => handleLangHover(false)}
+ <section
+  id="/"
+  className="relative pt-16 pb-16 md:pt-24 md:pb-24 overflow-hidden text-center transition-colors duration-500"
+  style={{ backgroundColor: languages[activeLangIndex].heroBg }}
+  onMouseEnter={() => setPauseLangCycle(true)}
+  onMouseLeave={() => setPauseLangCycle(false)}
 >
-  {languages.map((lang, index) => {
-    const isActive = activeLangIndex === index;
-    const isNext = activeLangIndex === (index - 1 + languages.length) % languages.length;
-    const isPrevious = activeLangIndex === (index + 1) % languages.length;
-    
-    return (
-      <button
-        key={lang.name}
-        type="button"
-        onClick={() => {
-          setActiveLangIndex(index);
-          handleFrameworkChange(lang.name.toLowerCase() as Framework);
-        }}
-        className={twMerge(
-          'absolute inset-0 flex items-center justify-center px-3 py-1 rounded-md text-sm font-black border transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)]',
-          'transform hover:scale-105 hover:shadow-md hover:z-10',
-          lang.bg,
-          lang.text,
-          lang.border,
-          isActive 
-            ? 'translate-y-0 opacity-100 scale-100 shadow-md z-5 ring-2 ring-offset-2 ring-offset-white/50 ring-white/30'
-            : isNext
-              ? 'translate-y-full opacity-0 scale-95 z-0'
-              : isPrevious
-                ? '-translate-y-full opacity-0 scale-95 z-0'
-                : 'opacity-0 scale-90 -translate-y-1/2 z-0'
-        )}
-        style={{
-          transitionProperty: 'transform, opacity, box-shadow',
-          transitionDuration: '0.5s',
-          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
-        }}
-        aria-label={`Sélectionner ${lang.name} comme framework`}
-        title={`Voir le code en ${lang.name}`}
-      >
-        {lang.name}
-      </button>
-    );
-  })}
-</div>
-                  <span >propres et optimisés.</span>
-                </div>
-              </div>
+  {/* Glow Background */}
+  <div
+    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] md:w-[700px] md:h-[700px] blur-[80px] md:blur-[140px] rounded-full transition-colors duration-1000 opacity-20 pointer-events-none"
+    style={{ backgroundColor: languages[activeLangIndex].glow }}
+  />
 
-              <div className="flex flex-col sm:flex-row gap-6 mt-4">
-                <Button
-                  onClick={triggerScan}
-                  className="h-14 px-10 bg-codeo-green text-white text-lg font-black rounded-md shadow-md shadow-codeo-green/20 hover:-translate-y-0.5 transition-all"
-                >
-                  Lancer le Scan <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-                <Button variant="outline" className="h-14 px-10 bg-white text-slate-800 text-lg font-black rounded-md border-slate-200 hover:bg-slate-50">
-                  Documentation
-                </Button>
-              </div>
+  <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+    <div className="flex flex-col items-center -mt-8">
+      
+      {/* Badge */}
+      <div className="inline-flex items-center gap-2 px-3 py-1 text-codeo-green text-[10px] md:text-xs font-black uppercase tracking-[0.2em] mb-0 animate-fade-in">
+        <Sparkles className="size-3 md:size-4" /> Vision Engine AI v1.0.0
+      </div>
+
+      {/* Main Title */}
+      <h1 className="text-slate-900 tracking-tighter text-4xl sm:text-6xl lg:text-7xl xl:text-[90px] font-black leading-[1.1] md:leading-[0.95] max-w-[1100px] [text-wrap:balance] mt-12">
+        L'intelligence visuelle au service de <span className="text-codeo-green">vos pixels.</span>
+      </h1>
+
+      {/* Description & Dynamic Switcher */}
+      <div className="mt-6 max-w-[900px]">
+        <p className="text-slate-500 text-base sm:text-lg md:text-2xl font-medium leading-relaxed [text-wrap:balance]">
+          Propulsé par notre moteur de vision propriétaire, donnez vie à vos designs en convertissant vos captures d'écran UI en composants
+          
+          {/* Wrapper pour le bouton dynamique pour qu'il ne casse pas la ligne n'importe comment */}
+          <span className="inline-block mx-2 align-middle">
+            <div 
+              className="relative inline-flex items-center justify-center w-[90px] md:w-[110px] h-7 md:h-9 overflow-hidden rounded-lg border border-slate-200/50 bg-white/30 backdrop-blur-sm shadow-sm transition-all duration-200"
+              onMouseEnter={() => handleLangHover(true)}
+              onMouseLeave={() => handleLangHover(false)}
+              style={{ backgroundColor: `${languages[activeLangIndex].glow}30` }}
+            >
+              {languages.map((lang, index) => {
+                const isActive = activeLangIndex === index;
+                const isNext = activeLangIndex === (index - 1 + languages.length) % languages.length;
+                const isPrevious = activeLangIndex === (index + 1) % languages.length;
+                
+                return (
+                  <button
+                    key={lang.name}
+                    type="button"
+                    onClick={() => {
+                      setActiveLangIndex(index);
+                      handleFrameworkChange(lang.name.toLowerCase() as Framework);
+                    }}
+                    className={twMerge(
+                      'absolute inset-0 flex items-center justify-center text-[9px] md:text-xs font-black uppercase tracking-widest transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)]',
+                      lang.text,
+                      isActive 
+                        ? 'translate-y-0 opacity-100 scale-100 z-10'
+                        : isNext ? 'translate-y-full opacity-0 scale-95' : '-translate-y-full opacity-0 scale-95'
+                    )}
+                  >
+                    {lang.name}
+                  </button>
+                );
+              })}
             </div>
+          </span>
+          
+          propres et optimisés.
+        </p>
+      </div>
+
+      {/* CTAs */}
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-8 w-full sm:w-auto px-4">
+        <Button
+          onClick={triggerScan}
+          className="w-full sm:w-auto h-14 px-10 bg-codeo-green text-white text-lg font-black rounded-xl shadow-lg shadow-codeo-green/20 hover:shadow-codeo-green/40 hover:-translate-y-1 transition-all active:scale-95"
+        >
+          Lancer le Scan <ArrowRight className="ml-2 h-5 w-5" />
+        </Button>
+        <Button 
+          variant="outline" 
+          className="w-full sm:w-auto h-14 px-10 bg-white/80 backdrop-blur-sm text-slate-800 text-lg font-black rounded-xl border-slate-200 hover:bg-slate-50 transition-all"
+        >
+          Documentation
+        </Button>
+      </div>
+    </div>
+  
 
             {/* WORKFLOW SECTION */}
             <section id="workflow-section" className="py-10 md:py-20">

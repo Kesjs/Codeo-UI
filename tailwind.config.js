@@ -16,6 +16,10 @@ module.exports = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
+      mono: ['var(--font-jetbrains-mono)', 'monospace'],
+    },
     extend: {
       colors: {
         'codeo-green': 'hsl(123.8, 69.2%, 50.4%)',

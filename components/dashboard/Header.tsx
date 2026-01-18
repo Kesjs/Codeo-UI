@@ -1,15 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { Cpu, Zap, HelpCircle, Settings } from 'lucide-react'
+import { Cpu, Zap, HelpCircle, Settings, Menu } from 'lucide-react'
 import Tooltip from './ui/Tooltip'
 
 interface HeaderProps {
   remainingScans: number
   totalScans: number
+  onMenuClick?: () => void
 }
 
-export default function Header({ remainingScans, totalScans }: HeaderProps) {
+export default function Header({ remainingScans, totalScans, onMenuClick }: HeaderProps) {
   const [showTooltip, setShowTooltip] = useState(false)
 
   return (
@@ -17,13 +18,11 @@ export default function Header({ remainingScans, totalScans }: HeaderProps) {
       <div className="px-4 sm:px-6 py-2 h-16 flex items-center">
         <div className="w-full flex items-center justify-between">
           {/* Left side - Title */}
-          <div className="flex items-center gap-3 flex-1 min-w-0 pl-12 sm:pl-0">
-            <div className="lg:pl-0">
-              <h1 className="text-lg font-bold text-slate-900 whitespace-nowrap overflow-hidden text-ellipsis pr-2">
-                Tableau de board - Codeo UI
-              </h1>
-            </div>
-            <div className="hidden sm:flex items-center gap-1 text-xs text-slate-500 flex-shrink-0">
+          <div className="flex items-center gap-3 flex-1 min-w-0 pl-12 lg:pl-0">
+            <h1 className="text-lg font-bold text-slate-900 whitespace-nowrap overflow-hidden">
+              Tableau de board - Codeo UI
+            </h1>
+            <div className="hidden sm:flex items-center gap-1 text-xs text-slate-500 ml-2">
               <Zap className="h-3 w-3" />
               <span>V-AST v1.0.0 actif</span>
             </div>

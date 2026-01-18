@@ -6,12 +6,18 @@ import { UploadCloud, X, CheckCircle } from 'lucide-react'
 import Tooltip from './ui/Tooltip'
 
 interface DropzoneProps {
-  isProcessing: boolean
-  setIsProcessing: (processing: boolean) => void
-  showOnboarding: boolean
+  onFileSelected: (file: File) => void;
+  isProcessing?: boolean;
+  setIsProcessing?: (processing: boolean) => void;
+  showOnboarding?: boolean;
 }
 
-export default function Dropzone({ isProcessing, setIsProcessing, showOnboarding }: DropzoneProps) {
+export default function Dropzone({ 
+  onFileSelected, 
+  isProcessing = false, 
+  setIsProcessing = () => {}, 
+  showOnboarding = false 
+}: DropzoneProps) {
   const [isDragOver, setIsDragOver] = useState(false)
   const [uploadedFile, setUploadedFile] = useState<File | null>(null)
   const [progress, setProgress] = useState(0)
@@ -44,35 +50,42 @@ export default function Dropzone({ isProcessing, setIsProcessing, showOnboarding
     }
   }, [])
 
-  const handleFileUpload = (file: File) => {
-    if (file.type.startsWith('image/')) {
-      setUploadedFile(file)
+  const processFile = useCallback((file: File) => {
+    setUploadedFile(file)
+    onFileSelected(file)
+    
+    if (setIsProcessing) {
       setIsProcessing(true)
-      simulateProcessing()
-    }
-  }
-
-  const simulateProcessing = () => {
-    setProgress(0)
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
+      
+      // Simuler un traitement
+      let progress = 0
+      const interval = setInterval(() => {
+        progress += 5
+        setProgress(Math.min(progress, 100))
+        
+        if (progress >= 100) {
           clearInterval(interval)
           setTimeout(() => {
-            setIsProcessing(false)
-            setUploadedFile(null)
-            setProgress(0)
-          }, 1000)
-          return 100
+            if (setIsProcessing) {
+              setIsProcessing(false)
+            }
+          }, 500)
         }
-        return prev + 10
-      })
-    }, 200)
+      }, 100)
+    }
+  }, [onFileSelected, setIsProcessing])
+
+  const handleFileUpload = (file: File) => {
+    if (file.type.startsWith('image/')) {
+      processFile(file)
+    }
   }
 
   const removeFile = () => {
     setUploadedFile(null)
-    setIsProcessing(false)
+    if (setIsProcessing) {
+      setIsProcessing(false)
+    }
     setProgress(0)
     if (fileInputRef.current) {
       fileInputRef.current.value = ''

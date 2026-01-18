@@ -26,7 +26,12 @@ import {
 } from 'lucide-react'
 import Logo from '@/components/Logo'
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter()
   const pathname = usePathname()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -115,7 +120,15 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* Bouton Mobile - ANIMÉ */}
+      {/* Overlay for mobile */}
+      <div 
+        className={`fixed inset-0 bg-black/50 z-20 lg:hidden transition-opacity duration-200 ${
+          isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+        onClick={onClose}
+      />
+      <div>
+        {/* Bouton Mobile - ANIMÉ */}
       <div className="lg:hidden fixed top-4 z-50 transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)]"
            style={{ left: isMobileMenuOpen ? '12.5rem' : '1rem' }}>
         <button 
@@ -331,6 +344,7 @@ export default function Sidebar() {
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-30 lg:hidden" onClick={() => setIsMobileMenuOpen(false)} />
       )}
+      </div>
     </>
   )
 }
