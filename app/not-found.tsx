@@ -3,21 +3,14 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowLeft, Zap, Construction, Home, Search, LifeBuoy } from 'lucide-react'
+import { Header } from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-slate-900 flex flex-col">
-      {/* Header Minimaliste */}
-      <nav className="bg-white/80 backdrop-blur-md border-b border-slate-100 py-4 px-6 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="bg-[#07b300] p-1.5 rounded-lg group-hover:rotate-12 transition-transform">
-              <Zap className="size-5 text-white fill-current" />
-            </div>
-            <span className="font-black text-xl tracking-tighter">Codeo</span>
-          </Link>
-        </div>
-      </nav>
+      {/* Header du landing page */}
+      <Header />
 
       <main className="flex-grow flex items-center justify-center py-20 px-6">
         <div className="max-w-3xl w-full text-center">
@@ -69,12 +62,10 @@ export default function NotFound() {
         </div>
       </main>
 
-      {/* Footer minimaliste */}
-      <footer className="py-8 text-center border-t border-slate-100">
-        <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">
-          © 2026 Codeo UI — Built for developers
-        </p>
-      </footer>
+      {/* Footer du landing page */}
+      <div className="mt-auto border-t-2 border-slate-200 bg-white">
+        <Footer />
+      </div>
     </div>
   )
 }

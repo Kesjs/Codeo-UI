@@ -199,39 +199,63 @@ export default function Home() {
   }, [pauseLangCycle])
 
   const triggerScan = () => {
-    setIsScanning(true)
-    setHasScanned(false)
-    setAutoScroll(false)
-
+    // Faire défiler vers la section de workflow
+    const workflowSection = document.getElementById('workflow-section')
+    if (workflowSection) {
+      workflowSection.scrollIntoView({ behavior: 'smooth' })
+    }
+    
+    // Démarrer le scan après un court délai pour laisser le temps au défilement
     setTimeout(() => {
-      setIsScanning(false)
-      setHasScanned(true)
-      setIsHighlighting(true)
+      setIsScanning(true)
+      setHasScanned(false)
+      setAutoScroll(false)
 
       setTimeout(() => {
-        setIsHighlighting(false)
-        setAutoScroll(true)
-      }, AUTO_SCROLL_START_DELAY)
-    }, SCAN_DURATION)
+        setIsScanning(false)
+        setHasScanned(true)
+        setIsHighlighting(true)
+
+        setTimeout(() => {
+          setIsHighlighting(false)
+          setAutoScroll(true)
+        }, AUTO_SCROLL_START_DELAY)
+      }, SCAN_DURATION)
+    }, 500) // Délai pour le défilement
   }
 
   const [isChanging, setIsChanging] = useState(false)
+  const [isHoveringLang, setIsHoveringLang] = useState(false)
 
   const handleFrameworkChange = (lang: Framework) => {
     if (lang !== selectedFramework) {
-      setIsChanging(true)
-      setIsHighlighting(true)
+      setIsChanging(true);
+      setIsHighlighting(true);
+      setPauseLangCycle(true); // Pause le cycle automatique
 
+      // Animation plus douce avec un léger délai
       setTimeout(() => {
-        setSelectedFramework(lang)
+        setSelectedFramework(lang);
+        
+        // Réinitialisation de l'état après l'animation
         setTimeout(() => {
-          setIsHighlighting(false)
-          setIsChanging(false)
-        }, HIGHLIGHT_DURATION / 2)
-      }, 150)
+          setIsHighlighting(false);
+          setIsChanging(false);
+        }, 300); // Durée légèrement plus longue pour un effet plus doux
+      }, 100);
     }
-  }
+  };
 
+  // Gestion du survol des boutons de langage
+  const handleLangHover = (isHovering: boolean) => {
+    setIsHoveringLang(isHovering);
+    if (isHovering) {
+      setPauseLangCycle(true);
+    } else if (!isHovering && !isChanging) {
+      // Ne reprendre le cycle que si l'utilisateur n'a pas sélectionné de langage
+      setTimeout(() => setPauseLangCycle(false), 1000);
+    }
+  };
   const codeSnippets: Record<Framework, string> = {
     html: `<section class="relative min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 font-sans">
         <header class="fixed top-0 z-50 w-full border-b border-gray-200 bg-white/80 backdrop-blur-md px-6 py-4">
@@ -480,8 +504,8 @@ export default HeroSection;`,
       <main className="bg-codeo-light-bg">
         {/* HERO SECTION */}
         <section
-          id="pr"
-          className="relative pt-24 pb-20 overflow-hidden text-center transition-colors duration-300"
+          id="/"
+          className="relative pt-16 pb-20 overflow-hidden text-center transition-colors duration-300"
           style={{ backgroundColor: languages[activeLangIndex].heroBg }}
           onMouseEnter={() => setPauseLangCycle(true)}
           onMouseLeave={() => setPauseLangCycle(false)}
@@ -491,9 +515,9 @@ export default HeroSection;`,
             style={{ backgroundColor: languages[activeLangIndex].glow }}
           />
 
-          <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
-            <div className="flex flex-col items-center gap-8 mb-20">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-codeo-green/10 text-codeo-green text-xs font-black uppercase tracking-widest border border-codeo-green/20">
+          <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10 pt-0">
+            <div className="flex flex-col items-center gap-4 mb-16 -mt-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1 text-codeo-green text-xs font-black uppercase tracking-widest">
                 <Sparkles className="size-3" /> Vision Engine AI v2.0
               </div>
               <h1 className="text-slate-900 tracking-tighter text-5xl sm:text-7xl lg:text-[110px] font-black leading-[0.9] max-w-[1200px]">
@@ -505,22 +529,51 @@ export default HeroSection;`,
                 <p className="mb-2">Propulsé par notre moteur de vision propriétaire, donnez vie à vos designs</p>
                 <div className="flex items-center justify-center gap-x-3 whitespace-nowrap">
                   <span>en convertissant vos captures d'écran UI en composants</span>
-                  <span className="relative inline-flex items-center justify-center w-[90px] h-9 overflow-hidden align-middle">
-                    {languages.map((lang, index) => (
-                      <span id="workflow"
-                        key={lang.name}
-                        className={twMerge(
-                          'absolute inset-0 flex items-center justify-center px-3 py-1 rounded-md text-sm font-black border transition-all duration-700 ease-in-out',
-                          lang.bg,
-                          lang.text,
-                          lang.border,
-                          activeLangIndex === index ? 'translate-y-0 opacity-100' : index < activeLangIndex ? '-translate-y-full opacity-0' : 'translate-y-full opacity-0'
-                        )}
-                      >
-                        {lang.name}
-                      </span>
-                    ))}
-                  </span>
+                  <div 
+  className="relative inline-flex items-center justify-center w-[110px] h-10 overflow-hidden align-middle"
+  onMouseEnter={() => handleLangHover(true)}
+  onMouseLeave={() => handleLangHover(false)}
+>
+  {languages.map((lang, index) => {
+    const isActive = activeLangIndex === index;
+    const isNext = activeLangIndex === (index - 1 + languages.length) % languages.length;
+    const isPrevious = activeLangIndex === (index + 1) % languages.length;
+    
+    return (
+      <button
+        key={lang.name}
+        type="button"
+        onClick={() => {
+          setActiveLangIndex(index);
+          handleFrameworkChange(lang.name.toLowerCase() as Framework);
+        }}
+        className={twMerge(
+          'absolute inset-0 flex items-center justify-center px-3 py-1 rounded-md text-sm font-black border transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)]',
+          'transform hover:scale-105 hover:shadow-md hover:z-10',
+          lang.bg,
+          lang.text,
+          lang.border,
+          isActive 
+            ? 'translate-y-0 opacity-100 scale-100 shadow-md z-5 ring-2 ring-offset-2 ring-offset-white/50 ring-white/30'
+            : isNext
+              ? 'translate-y-full opacity-0 scale-95 z-0'
+              : isPrevious
+                ? '-translate-y-full opacity-0 scale-95 z-0'
+                : 'opacity-0 scale-90 -translate-y-1/2 z-0'
+        )}
+        style={{
+          transitionProperty: 'transform, opacity, box-shadow',
+          transitionDuration: '0.5s',
+          transitionTimingFunction: 'cubic-bezier(0.4, 0, 0.2, 1)'
+        }}
+        aria-label={`Sélectionner ${lang.name} comme framework`}
+        title={`Voir le code en ${lang.name}`}
+      >
+        {lang.name}
+      </button>
+    );
+  })}
+</div>
                   <span >propres et optimisés.</span>
                 </div>
               </div>
@@ -528,24 +581,24 @@ export default HeroSection;`,
               <div className="flex flex-col sm:flex-row gap-6 mt-4">
                 <Button
                   onClick={triggerScan}
-                  className="h-16 px-12 bg-codeo-green text-white text-xl font-black rounded-2xl shadow-2xl shadow-codeo-green/20 hover:-translate-y-1 transition-all"
+                  className="h-14 px-10 bg-codeo-green text-white text-lg font-black rounded-md shadow-md shadow-codeo-green/20 hover:-translate-y-0.5 transition-all"
                 >
-                  Lancer le Scan <ArrowRight className="ml-2 h-6 w-6" />
+                  Lancer le Scan <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button variant="outline" className="h-16 px-12 bg-white text-slate-800 text-xl font-black rounded-2xl border-slate-200">
+                <Button variant="outline" className="h-14 px-10 bg-white text-slate-800 text-lg font-black rounded-md border-slate-200 hover:bg-slate-50">
                   Documentation
                 </Button>
               </div>
             </div>
 
             {/* WORKFLOW SECTION */}
-            <section className="py-10 md:py-20">
+            <section id="workflow-section" className="py-10 md:py-20">
               <div className="relative w-full max-w-6xl mx-auto px-4">
-                <div className="rounded-2xl md:rounded-[2.5rem] overflow-hidden shadow-2xl bg-gray-50">
+                <div className="rounded-lg overflow-hidden shadow-xl bg-gray-50">
                   <div className="flex flex-col lg:grid lg:grid-cols-2 lg:divide-x lg:divide-slate-100 lg:h-[750px] min-h-[600px] overflow-hidden">
                     {/* LEFT - IMAGE */}
                     <div className="p-6 bg-white flex flex-col h-full relative overflow-hidden">
-                      <div className="flex-grow relative rounded-2xl bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center group">
+                      <div className="flex-grow relative rounded-md bg-slate-50 border border-slate-100 overflow-hidden flex items-center justify-center group">
                         <img
                           src="/images/screen.png"
                           className={`w-full h-full object-contain p-8 transition-all duration-700 ${isScanning ? 'opacity-40 blur-[2px]' : 'opacity-100'}`}
@@ -562,7 +615,7 @@ export default HeroSection;`,
                           <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-sm transition-opacity">
                             <Button
                               onClick={triggerScan}
-                              className="bg-codeo-green hover:bg-codeo-green/90 text-white font-bold rounded-xl px-8 shadow-xl hover:shadow-codeo-green/20 transition-all duration-300"
+                              className="bg-codeo-green hover:bg-codeo-green/90 text-white font-bold rounded-md px-8 shadow-md hover:shadow-codeo-green/20 transition-all duration-300"
                             >
                               Analyser le design
                             </Button>
@@ -578,7 +631,7 @@ export default HeroSection;`,
                       />
 
                       <div className="flex items-center justify-between mb-4 z-30 sticky top-0 bg-[#0d1117]/95 backdrop-blur-md px-2 py-3 border-b border-white/5">
-                        <div className="flex gap-1.5 bg-white/5 p-1 rounded-xl border border-white/5">
+                        <div className="flex gap-1.5 bg-white/5 p-1 rounded-md border border-white/5">
                           {(['html', 'react', 'vue'] as Framework[]).map((lang) => {
                             const langIndex = lang === 'react' ? 0 : lang === 'vue' ? 1 : 2
                             const langData = languages[langIndex]
@@ -588,9 +641,9 @@ export default HeroSection;`,
                                 key={lang}
                                 onClick={() => handleFrameworkChange(lang)}
                                 className={twMerge(
-                                  'px-4 py-1.5 text-[10px] font-black rounded-lg transition-all duration-300 ease-in-out transform',
+                                  'px-4 py-1.5 text-[10px] font-black rounded-md transition-all duration-300 ease-in-out transform',
                                   selectedFramework === lang
-                                    ? `${langData.bg} ${langData.text} shadow-lg scale-105`
+                                    ? `${langData.bg} ${langData.text} shadow-md scale-105`
                                     : 'text-slate-400 hover:text-white hover:bg-white/10 hover:scale-95',
                                   isChanging ? 'opacity-70' : 'opacity-100'
                                 )}
@@ -615,7 +668,7 @@ export default HeroSection;`,
                       <div
                         className="
                           flex-grow overflow-y-auto relative z-20 
-                          rounded-xl border border-white/5 bg-black/30
+                          rounded-md border border-white/5 bg-black/30
                           scrollbar-thin scrollbar-thumb-slate-600 scrollbar-track-slate-900
                           h-auto min-h-[300px] md:h-[65vh]
                         "
@@ -696,13 +749,13 @@ export default HeroSection;`,
               ].map((item, i) => (
                 <div
                   key={i}
-                  className="group p-8 rounded-2xl bg-white border border-slate-100 hover:shadow-lg hover:shadow-slate-200/50 hover:border-codeo-green/20 transition-all duration-300"
+                  className="p-6 rounded-md bg-white border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 h-full flex flex-col"
                 >
-                  <div className="size-14 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-codeo-green group-hover:bg-codeo-green/5 group-hover:border-codeo-green/20 transition-all mb-6 shadow-sm">
-                    {item.icon}
+                  <div className="size-10 rounded-md bg-slate-50 border border-slate-100 flex items-center justify-center text-slate-400 group-hover:text-codeo-green group-hover:bg-codeo-green/5 group-hover:border-codeo-green/20 transition-all mb-3 shadow-sm">
+                    {React.cloneElement(item.icon, { className: 'size-6' })}
                   </div>
-                  <h3 className="text-xl font-black mb-4 text-slate-800 tracking-tight">{item.title}</h3>
-                  <p className="text-slate-500 text-sm font-medium leading-relaxed">{item.desc}</p>
+                  <h3 className="text-lg font-black mb-3 text-slate-800 tracking-tight">{item.title}</h3>
+                  <p className="text-slate-500 text-sm font-medium leading-relaxed mt-auto">{item.desc}</p>
                 </div>
               ))}
             </div>
@@ -711,18 +764,18 @@ export default HeroSection;`,
 
         {/* ENGINE */}
         <section id="engine" className="py-32 bg-codeo-light-bg border-y border-slate-200 relative overflow-hidden">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50 -z-10" />
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-50 rounded-md blur-3xl opacity-50 -z-10" />
 
           <div className="mx-auto max-w-7xl px-6 lg:px-10">
             <div className="flex flex-col lg:flex-row gap-20 items-center">
               <div className="lg:w-1/2">
                 <div className="flex items-center gap-4 mb-10">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-200 text-slate-600 text-[10px] font-black uppercase tracking-[0.2em]">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-slate-200 text-slate-600 text-xs font-black uppercase tracking-widest">
                     <Terminal className="size-3" /> Technical Deep-Dive
                   </div>
                   <button
                     onClick={() => setIsHowItWorksOpen(true)}
-                    className="px-3 py-1 text-xs text-slate-500 hover:text-codeo-green hover:bg-codeo-green/10 hover:shadow-lg hover:shadow-codeo-green/20 hover:scale-105 border border-slate-300 hover:border-codeo-green/50 rounded-full transition-all duration-300 ease-out flex items-center gap-1.5 relative overflow-hidden group"
+                    className="px-3 py-1 text-xs text-slate-500 hover:text-codeo-green hover:bg-codeo-green/10 hover:shadow hover:shadow-codeo-green/10 hover:scale-105 border border-slate-200 hover:border-codeo-green/50 rounded-md transition-all duration-300 ease-out flex items-center gap-1.5 relative overflow-hidden group"
                   >
                     <span className="absolute inset-0 bg-gradient-to-r from-transparent via-codeo-green/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
                     <HelpCircle className="size-3 relative z-10 group-hover:rotate-12 transition-transform duration-300" /> 
@@ -735,8 +788,8 @@ export default HeroSection;`,
 
                 <div className="space-y-10">
                   <div className="flex gap-8 group">
-                    <div className="mt-1 size-14 shrink-0 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-codeo-green shadow-sm group-hover:bg-codeo-green group-hover:text-white group-hover:border-codeo-green transition-all duration-300">
-                        <Layers className="size-7" />
+                    <div className="mt-1 size-14 shrink-0 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-codeo-green shadow-sm group-hover:bg-[#09d600] group-hover:text-white group-hover:border-[#09d600] transition-all duration-300">
+                    <Layers className="size-7" />  
                     </div>
                     <div>
                       <h4 className="font-black text-2xl mb-2 text-slate-800">1. Déconstruction & V-AST</h4>
@@ -771,7 +824,7 @@ export default HeroSection;`,
               </div>
 
               <div className="lg:w-1/2 w-full">
-                <div className="bg-[#0a0a0b] rounded-[2rem] overflow-hidden shadow-2xl border border-white/5 relative">
+                <div className="bg-[#0a0a0b] rounded-xl overflow-hidden shadow-xl border border-white/5 relative">
                   <div className="flex items-center justify-between px-8 py-4 bg-gradient-to-r from-blue-900/30 to-blue-800/10 border-b border-white/5">
                     <div className="flex items-center gap-3">
                       <div className="relative">
@@ -1131,10 +1184,10 @@ export default HeroSection;`,
 
       <style jsx global>{`
         @keyframes scan-line {
-          0% { top: 0; opacity: 0; background-color: hsl(123.8, 69.2%, 50.4%); }
-          10% { opacity: 1; background-color: hsl(123.8, 69.2%, 50.4%); }
-          90% { opacity: 1; background-color: hsl(123.8, 69.2%, 50.4%); }
-          100% { top: 100%; opacity: 0; background-color: hsl(123.8, 69.2%, 50.4%); }
+          0% { top: 0; opacity: 0; background-color: #09d600; }
+          10% { opacity: 1; background-color: #09d600; }
+          90% { opacity: 1; background-color: #09d600; }
+          100% { top: 100%; opacity: 0; background-color: #09d600; }
         }
         .animate-scan-line {
           animation: scan-line 2.8s linear infinite;

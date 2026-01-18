@@ -86,6 +86,7 @@ export default function LoginPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
+                  placeholder=""
                   className="h-11 pl-10 rounded-lg border-slate-200 bg-slate-50/30 focus:bg-white focus:ring-1 focus:ring-codeo-green transition-all text-sm"
                 />
               </div>
@@ -107,6 +108,7 @@ export default function LoginPage() {
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  placeholder=""
                   className="h-11 pl-10 rounded-lg border-slate-200 bg-slate-50/30 focus:bg-white focus:ring-1 focus:ring-codeo-green transition-all text-sm"
                 />
                 <button
