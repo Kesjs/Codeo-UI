@@ -1,7 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { Calendar, ExternalLink, Code2 } from 'lucide-react'
+import { motion, Variants } from 'framer-motion'
+import { Calendar, ExternalLink, Code2, Atom, Circle, Square, Type, Triangle, Palette, Globe, Cpu, Database, Smartphone, Server, GitBranch } from 'lucide-react'
+import { cn } from '@/lib/utils'
 
 interface Project {
   id: string
@@ -14,31 +15,117 @@ interface Project {
 interface ProjectCardProps {
   project: Project;
   onClick?: () => void;
+  isPremium?: boolean;
+  delay?: number;
 }
 
 const getFrameworkIcon = (framework: string) => {
+  const baseClass = 'w-4 h-4 flex-shrink-0'
+  const iconProps = {
+    className: baseClass,
+    'aria-hidden': true
+  }
+
   switch (framework.toLowerCase()) {
     case 'react':
     case 'react native':
-      return '⚛️'
+      return <Atom {...iconProps} className={`${baseClass} text-blue-500`} />
     case 'vue':
-      return '🟢'
+      return <Triangle {...iconProps} className={`${baseClass} text-green-500`} />
     case 'angular':
-      return '🅰️'
+      return <Square {...iconProps} className={`${baseClass} text-red-500`} />
     case 'typescript':
-      return '🔷'
+      return <Type {...iconProps} className={`${baseClass} text-blue-600`} />
     case 'tailwind':
-      return '🎨'
+      return <Palette {...iconProps} className={`${baseClass} text-cyan-500`} />
     case 'html':
-      return '🌐'
+      return <Code2 {...iconProps} className={`${baseClass} text-orange-500`} />
     case 'css':
-      return '🎨'
+      return <Palette {...iconProps} className={`${baseClass} text-blue-400`} />
+    case 'javascript':
+      return <Code2 {...iconProps} className={`${baseClass} text-yellow-400`} />
+    case 'node':
+    case 'nodejs':
+      return <Circle {...iconProps} className={`${baseClass} text-green-600`} />
+    case 'next':
+    case 'nextjs':
+      return <Globe {...iconProps} className={`${baseClass} text-gray-900 dark:text-gray-100`} />
+    case 'graphql':
+      return <GitBranch {...iconProps} className={`${baseClass} text-pink-500`} />
+    case 'mongodb':
+      return <Database {...iconProps} className={`${baseClass} text-green-500`} />
+    case 'express':
+      return <Code2 {...iconProps} className={`${baseClass} text-gray-500`} />
+    case 'react native':
+      return <Smartphone {...iconProps} className={`${baseClass} text-blue-400`} />
+    case 'docker':
+      return <Server {...iconProps} className={`${baseClass} text-blue-500`} />
+    case 'aws':
+      return <Server {...iconProps} className={`${baseClass} text-orange-400`} />
     default:
-      return '💻'
+      return <Code2 {...iconProps} className={`${baseClass} text-gray-400`} />
   }
 }
 
-export default function ProjectCard({ project, onClick }: ProjectCardProps) {
+// Animation pour les cartes standard (Staggered Slide & Blur)
+const cardVariants: Variants = {
+  offscreen: {
+    y: 30,  // Augmenté de 10 à 30 pour un effet plus visible
+    opacity: 0,
+    filter: 'blur(8px)',  // Augmenté le flou initial
+  },
+  onscreen: (i: number) => ({
+    y: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    transition: {
+      type: 'spring',
+      stiffness: 120,  // Augmenté pour un effet plus dynamique
+      damping: 12,     // Réduit pour plus de rebond
+      delay: i * 0.1,  // Délai légèrement augmenté
+    },
+  }),
+  hover: {
+    y: -8,  // Effet de lévitation au survol
+    transition: {
+      type: 'spring',
+      stiffness: 300,
+      damping: 15,
+    },
+  },
+};
+
+// Animation pour la bordure des cartes premium (Border Draw)
+const borderVariants: Variants = {
+  hidden: { 
+    pathLength: 0,
+    opacity: 0,
+  },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: {
+      duration: 1.2,  // Animation plus lente
+      ease: [0.2, 0.8, 0.4, 1],  // Courbe d'animation personnalisée
+    },
+  },
+  pulse: {
+    scale: 1.02,  // Légère mise à l'échelle
+    transition: {
+      repeat: Infinity,
+      repeatType: 'reverse',
+      duration: 2,
+      ease: 'easeInOut',
+    },
+  },
+};
+
+export default function ProjectCard({ 
+  project, 
+  onClick, 
+  isPremium = false, 
+  delay = 0 
+}: ProjectCardProps) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     return date.toLocaleDateString('fr-FR', { 
@@ -50,12 +137,15 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
 
   return (
     <motion.div
-      className="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden hover:shadow-md transition-shadow duration-200 cursor-pointer"
-      whileHover={{ y: -2 }}
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      onClick={onClick}
+      initial="offscreen"
+      whileInView="onscreen"
+      whileHover="hover"
+      viewport={{ once: true, margin: "-30% 0px" }}
+      variants={cardVariants}
+      custom={delay}
+      className={cn(
+        "group relative h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-codeo-green/30 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-codeo-green/30"
+      )}
     >
       {/* Thumbnail */}
       <div className="aspect-video bg-slate-100 relative overflow-hidden">
@@ -92,16 +182,22 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
         </h3>
         
         {/* Framework Badges */}
-        <div className="flex flex-wrap gap-1 mb-3">
-          {project.frameworks.map((framework) => (
-            <span
-              key={framework}
-              className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-md"
-            >
-              <span>{getFrameworkIcon(framework)}</span>
-              <span>{framework}</span>
-            </span>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-3">
+          {project.frameworks.map((framework) => {
+            const icon = getFrameworkIcon(framework);
+            return (
+              <div
+                key={framework}
+                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 text-xs rounded-lg border border-slate-200 dark:border-slate-700"
+                title={framework}
+              >
+                <div className="flex items-center justify-center">
+                  {icon}
+                </div>
+                <span className="font-medium">{framework}</span>
+              </div>
+            );
+          })}
         </div>
 
         {/* Date */}

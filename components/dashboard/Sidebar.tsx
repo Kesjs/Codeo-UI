@@ -127,7 +127,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }`}
         onClick={onClose}
       />
-      <div>
+      <div className="relative">
         {/* Bouton Mobile - ANIMÉ */}
       <div className="lg:hidden fixed top-4 z-50 transition-all duration-500 ease-[cubic-bezier(0.4, 0, 0.2, 1)]"
            style={{ left: isMobileMenuOpen ? '12.5rem' : '1rem' }}>
@@ -190,24 +190,38 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           )}
         </div>
 
-        {/* BOUTON DE RÉDUCTION - DESKTOP */}
-        <div className="hidden lg:flex absolute top-4 -right-3 z-50">
+        {/* BOUTON DE RÉDUCTION - DESKTOP - AMÉLIORÉ */}
+        <div className="hidden lg:flex absolute top-6 -right-3 z-50">
           <button 
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="w-6 h-6 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-slate-50 transition-all duration-300 hover:shadow-lg focus:outline-none focus:ring-0"
+            className={`group w-8 h-8 bg-white dark:bg-slate-800 rounded-full shadow-lg flex items-center justify-center 
+              transition-all duration-300 hover:shadow-xl hover:scale-110 focus:outline-none focus:ring-2 focus:ring-codeo-green/50
+              border-2 border-slate-200 dark:border-slate-700 hover:border-codeo-green`}
             aria-label={isCollapsed ? 'Agrandir la barre latérale' : 'Réduire la barre latérale'}
           >
-            <div className="relative w-4 h-4">
-              <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isCollapsed ? 'opacity-0 -rotate-90' : 'opacity-100'}`}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect width="7" height="7" x="3" y="3" rx="1" />
-                  <rect width="7" height="7" x="14" y="3" rx="1" />
-                  <rect width="7" height="7" x="14" y="14" rx="1" />
-                  <rect width="7" height="7" x="3" y="14" rx="1" />
+            <div className="relative w-5 h-5">
+              {/* Flèche animée */}
+              <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isCollapsed ? 'rotate-180' : ''}`}>
+                <svg 
+                  width="16" 
+                  height="16" 
+                  viewBox="0 0 24 24" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  strokeWidth="2" 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round"
+                  className="text-slate-600 dark:text-slate-300 group-hover:text-codeo-green transition-colors duration-200"
+                >
+                  <path d="M15 18l-6-6 6-6" />
                 </svg>
               </div>
-              <div className={`absolute inset-0 flex items-center justify-center transition-all duration-300 ${isCollapsed ? 'opacity-100' : 'opacity-0 rotate-90'}`}>
-                <ChevronRight className="h-4 w-4 text-slate-700" />
+              {/* Indicateur de survol */}
+              <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <div className="bg-slate-900 text-white text-xs font-medium px-2 py-1 rounded whitespace-nowrap">
+                  {isCollapsed ? 'Agrandir' : 'Réduire'}
+                </div>
+                <div className="w-2 h-2 bg-slate-900 absolute -top-1 left-1/2 -translate-x-1/2 rotate-45"></div>
               </div>
             </div>
           </button>
@@ -240,7 +254,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Zap}
             />
             {openSections.generation && (
-              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard, current: pathname === '/dashboard' }} />
                 <NavItem item={{ name: 'Workbench', href: '/dashboard/workbench', icon: Cpu, current: pathname === '/dashboard/workbench' }} />
               </div>
@@ -256,7 +270,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Folder}
             />
             {openSections.library && (
-              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Mes Composants', href: '/dashboard/components', icon: History, current: pathname === '/dashboard/components' }} />
                 <NavItem item={{ name: 'Collections', href: '/dashboard/collections', icon: FolderKanban, current: pathname === '/dashboard/collections' }} />
                 <NavItem item={{ name: 'Design System', href: '#', icon: Palette, badge: 'Bientôt' }} />
@@ -288,7 +302,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Terminal}
             />
             {openSections.infra && (
-              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Équipe', href: '#', icon: Users, badge: 'Business' }} />
                 <NavItem item={{ name: 'API & Webhooks', href: '#', icon: Terminal, badge: 'Pro' }} />
               </div>
