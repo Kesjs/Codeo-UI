@@ -12,6 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
+import { usePlan } from '../layout'
 
 // ── Types ────────────────────────────────────────────────
 type PlanType = 'starter' | 'pro' | 'business'
@@ -125,10 +126,8 @@ const getFrameworkIcon = (framework: FrameworkType) => {
 }
 
 export default function WorkbenchPage() {
-  // Simulation dev toggle
-  const isDevMode = process.env.NODE_ENV === 'development'
-  const [simulatedPlan, setSimulatedPlan] = useState<PlanType>('starter')
-  const activePlan = isDevMode ? simulatedPlan : 'starter'
+  // Utilise le contexte global du plan
+  const { activePlan, simulatedPlan, setSimulatedPlan, isDevMode } = usePlan()
   const config = planConfigs[activePlan]
 
   // États du Workbench

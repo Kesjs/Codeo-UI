@@ -1,17 +1,58 @@
 'use client'
 
 import { useState } from 'react'
-import { Cpu, Zap, HelpCircle, Settings, Menu } from 'lucide-react'
+import { Cpu, Zap, HelpCircle, Settings, Menu, Infinity } from 'lucide-react'
 import Tooltip from './ui/Tooltip'
 
 interface HeaderProps {
-  remainingScans: number
-  totalScans: number
+  remainingScans?: number
+  totalScans?: number
+  plan?: 'starter' | 'pro' | 'business'
   onMenuClick?: () => void
 }
 
-export default function Header({ remainingScans, totalScans, onMenuClick }: HeaderProps) {
+export default function Header({ remainingScans = 5, totalScans = 10, plan = 'starter', onMenuClick }: HeaderProps) {
   const [showTooltip, setShowTooltip] = useState(false)
+
+  // Détermine l'affichage selon le plan
+  const getScansDisplay = () => {
+    switch (plan) {
+      case 'starter':
+        return {
+          text: `${remainingScans}/${totalScans}`,
+          label: 'Scans IA',
+          color: 'text-codeo-green',
+          bgColor: 'bg-codeo-green/10',
+          tooltip: 'Vos Scans IA restants. 1 scan = exports illimités pour ce design.'
+        }
+      case 'pro':
+        return {
+          text: 'Illimités',
+          label: 'Scans IA',
+          color: 'text-codeo-green',
+          bgColor: 'bg-codeo-green/10',
+          tooltip: 'Scans IA illimités avec GPU prioritaire. Profitez de la puissance V-AST Turbo !'
+        }
+      case 'business':
+        return {
+          text: 'Illimités',
+          label: 'Scans IA',
+          color: 'text-purple-600',
+          bgColor: 'bg-purple-100',
+          tooltip: 'Scans IA illimités avec instance dédiée. Performance maximale pour votre équipe.'
+        }
+      default:
+        return {
+          text: `${remainingScans}/${totalScans}`,
+          label: 'Scans IA',
+          color: 'text-codeo-green',
+          bgColor: 'bg-codeo-green/10',
+          tooltip: 'Vos Scans IA restants. 1 scan = exports illimités pour ce design.'
+        }
+    }
+  }
+
+  const scansDisplay = getScansDisplay()
 
   return (
     <header className="bg-white border-b border-slate-200 relative z-10">
@@ -33,18 +74,21 @@ export default function Header({ remainingScans, totalScans, onMenuClick }: Head
             {/* Scans IA Badge */}
             <div className="relative ml-4">
               <div
-                className="bg-codeo-green/10 text-codeo-green px-3 py-1.5 rounded-lg font-medium text-sm cursor-help"
+                className={`${scansDisplay.bgColor} ${scansDisplay.color} px-3 py-1.5 rounded-lg font-medium text-sm cursor-help flex items-center gap-2`}
                 onMouseEnter={() => setShowTooltip(true)}
                 onMouseLeave={() => setShowTooltip(false)}
               >
+                {plan !== 'starter' && (
+                  <Infinity className="h-4 w-4" />
+                )}
                 <div className="flex flex-col sm:flex-row items-center gap-0 sm:gap-2">
-                  <span className="font-bold">{remainingScans}/{totalScans}</span>
-                  <span className="text-xs sm:text-sm">Scans IA</span>
+                  <span className="font-bold">{scansDisplay.text}</span>
+                  <span className="text-xs sm:text-sm">{scansDisplay.label}</span>
                 </div>
               </div>
               
               {showTooltip && (
-                <Tooltip text="Vos Scans IA restants. 1 scan = exports illimités pour ce design." />
+                <Tooltip text={scansDisplay.tooltip} />
               )}
             </div>
 

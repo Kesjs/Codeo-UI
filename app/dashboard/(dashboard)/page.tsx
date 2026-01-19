@@ -16,6 +16,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/compon
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion'
 import ProjectCard from '@/components/dashboard/ProjectCard'
+import { usePlan } from '../layout'
 
 // ── Types ────────────────────────────────────────────────
 interface Project {
@@ -358,9 +359,7 @@ export default function DashboardPage() {
   const [filterFramework, setFilterFramework] = useState('all')
 
   // Simulation dev toggle
-  const isDevMode = process.env.NODE_ENV === 'development'
-  const [simulatedPlan, setSimulatedPlan] = useState<PlanType>('starter')
-  const activePlan = isDevMode ? simulatedPlan : 'starter' // ← remplace en prod par auth réelle
+  const { activePlan, simulatedPlan, setSimulatedPlan, isDevMode } = usePlan() // ← remplace en prod par auth réelle
 
   const config = planConfigs[activePlan]
 

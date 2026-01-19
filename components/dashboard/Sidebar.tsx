@@ -63,16 +63,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const handleLogout = () => router.push('/login')
 
   const handleNewProject = () => {
-    const dropzone = document.getElementById('dropzone')
-    if (dropzone) dropzone.scrollIntoView({ behavior: 'smooth' })
-    else router.push('/dashboard')
+    router.push('/dashboard/workbench')
   }
 
   // Composant pour les en-têtes de section
   const SectionHeader = ({ title, isOpen, onToggle, icon: Icon }: { title: string, isOpen: boolean, onToggle: () => void, icon: any }) => (
     <button 
       onClick={onToggle}
-      className={`w-full flex items-center justify-between px-4 py-5 text-[11px] font-black text-slate-900 uppercase tracking-[0.15em] hover:text-slate-600 transition-all duration-200 group hover:bg-codeo-green/5 rounded-xl ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
+      className={`w-full flex items-center justify-between px-3 py-3 text-[12px] font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200 group hover:bg-codeo-green/5 rounded-lg ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
     >
       <div className={`flex items-center ${isCollapsed ? 'lg:flex-col' : 'gap-2'}`}>
         <Icon className="h-4 w-4" />
@@ -93,18 +91,22 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         }
       }}
       className={`
-        flex items-center justify-between px-4 py-5 rounded-xl transition-all duration-200 no-underline group list-none
+        flex items-center justify-between px-3 py-3 rounded-lg transition-all duration-200 no-underline group list-none relative
         ${item.current 
-          ? 'bg-codeo-green/10 text-codeo-green font-bold shadow-sm shadow-codeo-green/5' 
-          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+          ? 'bg-codeo-green text-white font-medium shadow-md shadow-codeo-green/25 border border-codeo-green/20' 
+          : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
         }
         ${item.badge ? 'cursor-not-allowed opacity-70' : ''}
         ${isCollapsed ? 'lg:flex-col lg:justify-center lg:items-center' : ''}
       `}
     >
+      {/* Indicateur actif */}
+      {item.current && (
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-6 bg-white rounded-r-full" />
+      )}
       <div className={`flex items-center ${isCollapsed ? 'lg:flex-col' : 'gap-3'}`}>
-        <item.icon className={`h-4 w-4 transition-colors ${item.current ? 'text-codeo-green' : 'text-slate-400 group-hover:text-slate-600'}`} />
-        <span className={`text-[15px] font-medium leading-none transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>{item.name}</span>
+        <item.icon className={`h-4 w-4 transition-colors ${item.current ? 'text-white' : 'text-slate-400 group-hover:text-slate-600'}`} />
+        <span className={`text-[14px] font-medium leading-none transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>{item.name}</span>
       </div>
       {item.badge && (
         <span className={`text-[8px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded border
@@ -228,18 +230,18 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         {/* ACTION : NOUVEAU PROJET */}
-        <div className={`px-3 pb-6 pt-8 ${isCollapsed ? 'lg:px-2' : ''}`}>
+        <div className={`px-3 pb-4 pt-6 ${isCollapsed ? 'lg:px-2' : ''}`}>
           <button 
             onClick={handleNewProject}
-            className={`w-full bg-codeo-green text-white rounded-xl px-4 py-3.5 font-black text-[11px] tracking-widest hover:shadow-xl hover:shadow-codeo-green/30 transition-all active:scale-[0.97] flex items-center justify-center gap-2 uppercase ${isCollapsed ? 'lg:flex-col' : ''}`}
+            className={`w-full border border-codeo-green text-codeo-green bg-codeo-green/5 hover:bg-codeo-green/10 rounded-lg px-3 py-2.5 font-medium text-[13px] transition-all active:scale-[0.98] flex items-center justify-center gap-2 ${isCollapsed ? 'lg:flex-col' : ''}`}
           >
-            <Plus className="h-4 w-4 stroke-[3px]" />
+            <Plus className="h-4 w-4" />
             <span className={`transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>Nouveau Projet</span>
           </button>
         </div>
 
         {/* NAVIGATION AREA (Invisible Scroll) */}
-        <div className="flex-1 px-3 overflow-y-auto scrollbar-hide space-y-2">
+        <div className="flex-1 px-3 overflow-y-auto scrollbar-hide space-y-3 pt-8">
           <style jsx cursor-auto>{`
             .scrollbar-hide::-webkit-scrollbar { display: none; }
             .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -254,7 +256,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Zap}
             />
             {openSections.generation && (
-              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Tableau de bord', href: '/dashboard', icon: LayoutDashboard, current: pathname === '/dashboard' }} />
                 <NavItem item={{ name: 'Workbench', href: '/dashboard/workbench', icon: Cpu, current: pathname === '/dashboard/workbench' }} />
               </div>
@@ -270,7 +272,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Folder}
             />
             {openSections.library && (
-              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Mes Composants', href: '/dashboard/components', icon: History, current: pathname === '/dashboard/components' }} />
                 <NavItem item={{ name: 'Collections', href: '/dashboard/collections', icon: FolderKanban, current: pathname === '/dashboard/collections' }} />
                 <NavItem item={{ name: 'Design System', href: '#', icon: Palette, badge: 'Bientôt' }} />
@@ -287,7 +289,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Sparkles}
             />
             {openSections.inspiration && (
-              <div className="space-y-1 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-3 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Templates IA', href: '#', icon: Sparkles, badge: 'Bientôt' }} />
               </div>
             )}
@@ -302,7 +304,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               icon={Terminal}
             />
             {openSections.infra && (
-              <div className="space-y-1 pl-4 ml-2 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
+              <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Équipe', href: '#', icon: Users, badge: 'Business' }} />
                 <NavItem item={{ name: 'API & Webhooks', href: '#', icon: Terminal, badge: 'Pro' }} />
               </div>
@@ -313,43 +315,50 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         {/* FOOTER: PROFIL & DÉCONNEXION */}
         <div className={`p-6 border-t border-slate-100 bg-slate-50/50 ${isCollapsed ? 'lg:px-2' : ''}`}>
           {/* Icône profil en mode réduit */}
-          <div className={`hidden lg:flex items-center justify-center mb-4 ${isCollapsed ? '' : 'lg:hidden'}`}>
+          <button
+            onClick={() => router.push('/dashboard/settings')}
+            className={`hidden lg:flex items-center justify-center mb-4 w-full p-2 rounded-lg hover:bg-slate-100 transition-all cursor-pointer group ${isCollapsed ? '' : 'lg:hidden'}`}
+          >
             <div className="w-11 h-11 bg-white border border-slate-200 rounded-2xl flex items-center justify-center shadow-sm relative group">
-              <User className="h-5 w-5 text-slate-400" />
+              <User className="h-5 w-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-codeo-green border-2 border-white rounded-full" />
             </div>
-          </div>
+          </button>
           
-          <div className={`flex items-center gap-4 mb-5 ${isCollapsed ? 'lg:hidden' : ''}`}>
+          <button
+            onClick={() => router.push('/dashboard/settings')}
+            className={`w-full flex items-center gap-4 mb-5 p-3 rounded-xl hover:bg-slate-100 transition-all cursor-pointer group ${isCollapsed ? 'lg:hidden' : ''}`}
+          >
             <div className="w-11 h-11 bg-white border border-slate-200 rounded-2xl flex items-center justify-center shadow-sm relative group">
-              <User className="h-5 w-5 text-slate-400" />
+              <User className="h-5 w-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-codeo-green border-2 border-white rounded-full" />
             </div>
-            <div className={`flex-1 min-w-0 transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>
-              <div className="font-bold text-slate-900 text-base truncate leading-tight">Ken Kennedy</div>
+            <div className={`flex-1 min-w-0 transition-all duration-500 ease-out text-left ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>
+              <div className="font-bold text-slate-900 text-base truncate leading-tight group-hover:text-codeo-green transition-colors">Ken Kennedy</div>
               <div className="flex items-center gap-1.5 mt-1">
                 <div className="relative flex items-center">
                   <Sparkles className="h-3 w-3 text-codeo-green relative z-10 animate-pulse" />
                 </div>
                 <span className="text-[10px] font-black text-codeo-green uppercase tracking-tighter bg-codeo-green/5 px-2 py-0.5 rounded-full border border-codeo-green/10">Early Adopter</span>
               </div>
+              <div className="text-xs text-slate-500 mt-1">Voir les paramètres →</div>
             </div>
-          </div>
+          </button>
           
           {/* Bouton déconnexion en mode réduit */}
           <button
             onClick={handleLogout}
-            className={`hidden lg:flex w-full items-center justify-center bg-red-500 text-white rounded-xl px-4 py-3 hover:shadow-lg hover:shadow-red-500/30 transition-all active:scale-[0.97] border-2 border-red-500 hover:border-red-600 mb-2 ${isCollapsed ? '' : 'lg:hidden'}`}
+            className={`hidden lg:flex w-full items-center justify-center border border-red-200 text-red-500 bg-red-50/50 hover:bg-red-50 rounded-lg px-3 py-2.5 transition-all active:scale-[0.98] mb-2 ${isCollapsed ? '' : 'lg:hidden'}`}
           >
             <LogOut className="h-4 w-4" />
           </button>
           
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold text-white bg-red-500 hover:bg-red-600 hover:shadow-lg hover:shadow-red-500/30 rounded-xl transition-all border-2 border-red-500 hover:border-red-600 ${isCollapsed ? 'lg:hidden' : ''}`}
+            className={`w-full flex items-center justify-center gap-2 border border-red-200 text-red-500 bg-red-50/50 hover:bg-red-50 rounded-lg px-3 py-2.5 font-medium text-[13px] transition-all active:scale-[0.98] ${isCollapsed ? 'lg:hidden' : ''}`}
           >
             <LogOut className="h-4 w-4" />
-            <span className={`transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>DÉCONNEXION</span>
+            <span className={`transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>Déconnexion</span>
           </button>
         </div>
       </aside>
