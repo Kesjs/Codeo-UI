@@ -326,7 +326,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               <div className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-codeo-green border-2 border-white rounded-full" />
             </div>
             <div className={`flex-1 min-w-0 transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>
-              <p className="font-bold text-slate-900 text-base truncate leading-tight">Ken Kennedy</p>
+              <div className="font-bold text-slate-900 text-base truncate leading-tight">Ken Kennedy</div>
               <div className="flex items-center gap-1.5 mt-1">
                 <div className="relative flex items-center">
                   <Sparkles className="h-3 w-3 text-codeo-green relative z-10 animate-pulse" />
