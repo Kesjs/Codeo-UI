@@ -66,7 +66,7 @@ const planConfigs = {
     engine: 'V-AST Turbo v4.2',
     status: 'Priorité GPU Active',
     statusColor: 'text-codeo-green',
-    frameworks: ['react', 'nextjs', 'vue', 'html', 'tailwind'] as FrameworkType[],
+    frameworks: ['react', 'nextjs', 'vue', 'html'] as FrameworkType[],
     styleEngines: ['tailwind', 'css-modules', 'styled-components'] as StyleEngine[],
     options: {
       enableAnimations: true,
@@ -90,7 +90,7 @@ const planConfigs = {
     engine: 'V-AST Enterprise Custom',
     status: 'Instance Dédiée - Latence Zéro',
     statusColor: 'text-purple-600',
-    frameworks: ['react', 'nextjs', 'vue', 'html', 'tailwind'] as FrameworkType[],
+    frameworks: ['react', 'nextjs', 'vue', 'html'] as FrameworkType[],
     styleEngines: ['tailwind', 'css-modules', 'styled-components'] as StyleEngine[],
     options: {
       enableAnimations: true,

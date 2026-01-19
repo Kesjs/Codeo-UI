@@ -22,7 +22,14 @@ import {
   History,
   FolderKanban,
   Palette,
-  Zap
+  Zap,
+  Home,
+  Briefcase,
+  Settings,
+  Globe,
+  Key,
+  HelpCircle,
+  Activity
 } from 'lucide-react'
 import Logo from '@/components/Logo'
 
@@ -70,13 +77,13 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const SectionHeader = ({ title, isOpen, onToggle, icon: Icon }: { title: string, isOpen: boolean, onToggle: () => void, icon: any }) => (
     <button 
       onClick={onToggle}
-      className={`w-full flex items-center justify-between px-3 py-3 text-[12px] font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200 group hover:bg-codeo-green/5 rounded-lg ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
+      className={`w-full flex items-center justify-between px-3 py-4 text-[13px] font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200 group hover:bg-codeo-green/5 rounded-lg ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
     >
       <div className={`flex items-center ${isCollapsed ? 'lg:flex-col' : 'gap-2'}`}>
-        <Icon className="h-4 w-4" />
+        <Icon className="h-4.5 w-4.5" />
         <span className={`transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>{title}</span>
       </div>
-      <ChevronDown className={`h-4 w-4 transition-all duration-500 ease-out ${isOpen ? 'rotate-180' : ''} ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`} />
+      <ChevronDown className={`h-4.5 w-4.5 transition-all duration-500 ease-out ${isOpen ? 'rotate-180' : ''} ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`} />
     </button>
   )
 
@@ -269,12 +276,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               title="Ma Bibliothèque" 
               isOpen={openSections.library} 
               onToggle={() => toggleSection('library')}
-              icon={Folder}
+              icon={FolderKanban}
             />
             {openSections.library && (
               <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
-                <NavItem item={{ name: 'Mes Composants', href: '/dashboard/components', icon: History, current: pathname === '/dashboard/components' }} />
-                <NavItem item={{ name: 'Collections', href: '/dashboard/collections', icon: FolderKanban, current: pathname === '/dashboard/collections' }} />
+                <NavItem item={{ name: 'Mes Composants', href: '/dashboard/components', icon: Code, current: pathname === '/dashboard/components' }} />
+                <NavItem item={{ name: 'Collections', href: '/dashboard/collections', icon: Folder, current: pathname === '/dashboard/collections' }} />
                 <NavItem item={{ name: 'Design System', href: '#', icon: Palette, badge: 'Bientôt' }} />
               </div>
             )}
@@ -286,7 +293,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               title="V-AST Vault" 
               isOpen={openSections.inspiration} 
               onToggle={() => toggleSection('inspiration')}
-              icon={Sparkles}
+              icon={Briefcase}
             />
             {openSections.inspiration && (
               <div className="space-y-1 pl-3 ml-1 animate-in fade-in slide-in-from-top-1 duration-200">
@@ -301,12 +308,12 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
               title="Infrastructure" 
               isOpen={openSections.infra} 
               onToggle={() => toggleSection('infra')}
-              icon={Terminal}
+              icon={Activity}
             />
             {openSections.infra && (
               <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
                 <NavItem item={{ name: 'Équipe', href: '#', icon: Users, badge: 'Business' }} />
-                <NavItem item={{ name: 'API & Webhooks', href: '#', icon: Terminal, badge: 'Pro' }} />
+                <NavItem item={{ name: 'API & Webhooks', href: '#', icon: Key, badge: 'Pro' }} />
               </div>
             )}
           </div>
