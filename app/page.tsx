@@ -888,19 +888,30 @@ export default HeroSection;`,
             <h2 className="text-5xl font-black text-slate-900 mb-20 tracking-tighter">
               Échellez votre production.
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
               {[
-                { name: 'Starter', price: '0', feat: ['10 Scans IA / mois', 'Moteur V-AST Standard', 'Exports React & HTML', 'Code sémantique optimisé'] },
+                { 
+                  name: 'Starter', 
+                  price: '0', 
+                  feat: ['10 Scans IA / mois', 'Moteur V-AST Standard', 'Exports React & HTML', 'Code sémantique optimisé'] 
+                },
                 {
                   name: 'Pro',
                   price: '49',
-                  feat: ['Scans V-AST illimités', 'React, Vue & HTML sémantique', 'Accès prioritaire aux serveurs GPU', 'Support des designs complexes', 'Svelte ( Prochainement )'],
+                  feat: [
+                    'Scans V-AST illimités', 
+                    'React, Vue & HTML sémantique', 
+                    'Accès prioritaire aux serveurs GPU', 
+                    'Support des designs complexes', 
+                    'Svelte (Prochainement)'
+                  ],
                   popular: true,
                 },
                 {
                   name: 'Business',
                   price: '149',
                   feat: [
+                    'Tout le contenu du plan Pro',
                     'Équipes (jusqu\'à 10 users)', 
                     'SSO & Sécurité avancée', 
                     'Entraînement V-AST personnalisé', 
@@ -914,7 +925,7 @@ export default HeroSection;`,
                 <div
                   key={i}
                   className={twMerge(
-                    'p-8 rounded-2xl bg-white border transition-all duration-300',
+                    'p-8 rounded-2xl bg-white border transition-all duration-300 flex flex-col h-full',
                     plan.popular ? 'border-codeo-green shadow-lg relative z-10' : 'border-slate-100'
                   )}
                 >
@@ -923,20 +934,23 @@ export default HeroSection;`,
                       Le plus utilisé
                     </div>
                   )}
-                  <h3 className="text-2xl font-black mb-6 text-slate-900">{plan.name}</h3>
-                  <div className="text-5xl font-black mb-6 text-slate-900">
-                    {plan.price}€<span className="text-sm font-bold text-slate-400">/mo</span>
+                  <div className="flex-1">
+                    <h3 className="text-2xl font-black mb-4 text-slate-900">{plan.name}</h3>
+                    <div className="text-4xl font-black mb-6 text-slate-900">
+                      {plan.price}€<span className="text-sm font-bold text-slate-400">/mo</span>
+                    </div>
+                    <ul className="space-y-3 mb-6 text-left">
+                      {plan.feat.map((f, j) => (
+                        <li key={j} className="flex items-start gap-3 text-slate-600 text-sm">
+                          <CheckCircle2 className="size-5 text-codeo-green shrink-0 mt-0.5" />
+                          <span>{f}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <ul className="space-y-4 mb-8 text-left">
-                    {plan.feat.map((f, j) => (
-                      <li key={j} className="flex items-start gap-4 text-slate-600 font-bold text-sm">
-                        <CheckCircle2 className="size-5 text-codeo-green shrink-0" /> {f}
-                      </li>
-                    ))}
-                  </ul>
                   <Button
                     className={twMerge(
-                      'w-full rounded-xl h-14 font-black text-base transition-all',
+                      'w-full rounded-xl py-3 font-bold text-base transition-all mt-auto',
                       plan.popular
                         ? 'bg-codeo-green text-white hover:opacity-90 shadow-lg shadow-codeo-green/20'
                         : 'bg-slate-100 text-slate-800 hover:bg-slate-200'

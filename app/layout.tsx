@@ -22,8 +22,6 @@ const Footer = dynamic(() => import('@/components/layout/Footer'), {
   loading: () => <div className="h-16 bg-white" />
 })
 
-// Les métadonnées ont été déplacées dans head.tsx
-
 export const viewport: Viewport = {
   themeColor: [
     { media: '(prefers-color-scheme: light)', color: '#ffffff' },
@@ -36,44 +34,10 @@ export const viewport: Viewport = {
   colorScheme: 'light dark',
 };
 
-
 function LayoutContent({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isDashboard = pathname?.startsWith('/dashboard')
 
-  return (
-    <body className={`min-h-screen font-sans antialiased ${
-      isDashboard 
-        ? 'bg-codeo-light-bg text-slate-900 overflow-hidden' 
-        : 'bg-white text-gray-900 dark:bg-slate-900 dark:text-slate-200'
-    }`}>
-      <NextTopLoader 
-        color="#09d600"
-        initialPosition={0.08}
-        crawlSpeed={200}
-        height={3}
-        showSpinner={false}
-        easing="ease"
-        speed={200}
-        shadow="0 0 8px #09d600, 0 0 4px #09d600"
-        zIndex={1600}
-      />
-      <Suspense fallback={null}>
-        {!isDashboard && <Header />}
-        <main className="flex-1">
-          {children}
-        </main>
-        {!isDashboard && <Footer />}
-      </Suspense>
-    </body>
-  )
-}
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
   return (
     <html lang="fr" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <head>
@@ -84,9 +48,38 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </head>
-      <LayoutContent>
-        {children}
-      </LayoutContent>
+      <body className={`min-h-screen font-sans antialiased flex flex-col ${
+        isDashboard 
+          ? 'bg-codeo-light-bg text-slate-900 overflow-hidden' 
+          : 'bg-white text-gray-900 dark:bg-slate-900 dark:text-slate-200'
+      }`}>
+        <NextTopLoader 
+          color="#09d600"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 8px #09d600, 0 0 4px #09d600"
+          zIndex={1600}
+        />
+        <Suspense fallback={null}>
+          {!isDashboard && <Header />}
+          <main className="flex-1">
+            {children}
+          </main>
+          {!isDashboard && <Footer />}
+        </Suspense>
+      </body>
     </html>
-  );
+  )
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return <LayoutContent>{children}</LayoutContent>;
 }

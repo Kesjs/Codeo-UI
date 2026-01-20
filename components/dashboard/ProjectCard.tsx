@@ -144,11 +144,11 @@ export default function ProjectCard({
       variants={cardVariants}
       custom={delay}
       className={cn(
-        "group relative h-full overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-lg hover:border-codeo-green/30 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-codeo-green/30"
+        "group relative h-full overflow-hidden rounded-lg border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:shadow-md hover:border-codeo-green/30 dark:bg-slate-900 dark:border-slate-800 dark:hover:border-codeo-green/30"
       )}
     >
       {/* Thumbnail */}
-      <div className="aspect-video bg-slate-100 relative overflow-hidden">
+      <div className="aspect-[4/3] bg-slate-100 relative overflow-hidden">
         <img
           src={project.thumbnail}
           alt={project.name}
@@ -176,19 +176,19 @@ export default function ProjectCard({
       </div>
 
       {/* Content */}
-      <div className="p-4">
-        <h3 className="font-semibold text-slate-900 mb-2 line-clamp-1">
+      <div className="p-3">
+        <h3 className="font-medium text-sm text-slate-900 dark:text-slate-100 mb-1.5 line-clamp-1">
           {project.name}
         </h3>
         
         {/* Framework Badges */}
-        <div className="flex flex-wrap gap-2 mb-3">
+        <div className="flex flex-wrap gap-1.5 mb-2">
           {project.frameworks.map((framework) => {
             const icon = getFrameworkIcon(framework);
             return (
               <div
                 key={framework}
-                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 text-xs rounded-lg border border-slate-200 dark:border-slate-700"
+                className="inline-flex items-center gap-1 px-2 py-1 bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 text-[11px] rounded-md border border-slate-200 dark:border-slate-700"
                 title={framework}
               >
                 <div className="flex items-center justify-center">
@@ -201,7 +201,7 @@ export default function ProjectCard({
         </div>
 
         {/* Date */}
-        <div className="flex items-center justify-between text-xs text-slate-500">
+        <div className="flex items-center justify-between text-[11px] text-slate-500">
           <div className="flex items-center gap-1">
             <Calendar className="h-3 w-3" />
             <span>{formatDate(project.date)}</span>
