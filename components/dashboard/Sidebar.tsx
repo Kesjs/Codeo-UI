@@ -106,8 +106,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     return (
     <Link
       href={item.href}
-      onClick={(e) => {
-          if (isBlocked) {
+      onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (isBlocked) {
           e.preventDefault();
           alert(`Fonctionnalité ${item.badge} disponible prochainement !`);
         }
@@ -264,10 +264,14 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         {/* NAVIGATION AREA (Invisible Scroll) */}
-        <div className="flex-1 px-3 overflow-y-auto scrollbar-hide space-y-4 pt-8">
-          <style jsx cursor-auto>{`
-            .scrollbar-hide::-webkit-scrollbar { display: none; }
-            .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        <div className="flex-1 px-3 overflow-y-auto space-y-4 pt-8" style={{ 
+          scrollbarWidth: 'none',  // Firefox
+          msOverflowStyle: 'none', // IE/Edge
+        }}>
+          <style>{`
+            .overflow-y-auto::-webkit-scrollbar { 
+              display: none;  // Chrome/Safari/Opera
+            }
           `}</style>
           
           {/* SECTION: GÉNÉRATION (Le Core Business) */}

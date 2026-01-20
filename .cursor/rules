@@ -1,0 +1,52 @@
+# Codeo UI - Engineering & Design System Rules
+
+## Stack Technique Confirmée
+- Framework: Next.js 14.2.35 (App Router)
+- Styling: Tailwind CSS avec CSS Variables (HSL)
+- Composants: Shadcn UI (Style: New-York) dans @/components/ui/
+- Animations: Framer Motion v12.27.0 (motion, AnimatePresence)
+- Icônes: Lucide React & Heroicons
+- Code: Monaco Editor & React Syntax Highlighter
+
+## Design Tokens & Identité Visuelle
+- Branding: 
+    - Vert Principal: hsl(123.8, 69.2%, 50.4%) (--codeo-green)
+    - Fonds: codeo-light-bg (rgba(44, 255, 0, 0.04))
+- Arrondis (Signatures):
+    - Cartes Dashboard/Workbench: Utiliser 2rem (32px) pour le look "Soft Premium".
+    - Composants UI: Suivre var(--radius) pour la cohérence Shadcn.
+- Typographie: font-black pour les titres H1/H2, font-medium pour le body text.
+
+## Logique Métier & Plans (Crucial)
+- Système de Plans: Utiliser le type `PlanType = 'starter' | 'pro' | 'business'`.
+- Accès au Plan: Utiliser systématiquement le hook `usePlan()` exporté depuis `app/dashboard/layout.tsx`.
+- Variable de référence: `activePlan`.
+- Comportement par Plan:
+    - STARTER: Brider les options (Next.js, Animations, SEO). Afficher badge "PRO" et opacity-50.
+    - PRO: Activer "V-AST Turbo", priorité GPU, et exports multi-frameworks.
+    - BUSINESS: Activer "V-AST Enterprise", stats d'équipe et audit de sécurité.
+
+## Règles du Workbench (IDE Mode)
+- Structure: Split-view obligatoire. 
+- Image Source: Gauche (Zone de drop/preview).
+- Code Editor (Monaco): Droite. Thème systématiquement Sombre (#1e1e1e).
+- Feedbacks: Utiliser `react-countup` pour les scores d'efficacité et des effets de "Typewriter" pour les logs de l'IA V-AST.
+
+## Architecture des Fichiers
+- Pages Dashboard: `app/dashboard/(dashboard)/page.tsx`
+- Composants Métier: `components/dashboard/` (Sidebar, Header, ProjectCard)
+- Primitives UI: `components/ui/`
+- Layout Principal: `app/dashboard/layout.tsx` (Contient PlanContext)
+
+## Directives de Code
+- Utiliser des fonctions fléchées (Arrow Functions) pour les composants.
+- 'use client' uniquement si hooks React ou Framer Motion présents.
+- Langue: UI en Français (Premium/Pro), Commentaires et Variables en Anglais.
+- Animations: Toujours privilégier des transitions spring (stiffness: 100, damping: 20) pour l'effet "Soft".
+
+## Règle de Workflow : Validation Stratégique
+- AVANT toute modification ou génération :
+  1. ANALYSER la demande par rapport à l'existant.
+  2. PROPOSER la stratégie : lister les fichiers à modifier/créer et expliquer le "pourquoi".
+  3. STOP : Attendre explicitement une confirmation ("Ok", "Vas-y", "Confirmé") avant d'écrire le code.
+  4. INTERDICTION de modifier plusieurs fichiers critiques (ex: layout vs page) sans avoir validé l'impact sur le PlanContext.
