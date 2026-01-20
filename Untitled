@@ -1,0 +1,48 @@
+Résumé Technique - Codeo UI
+Couleurs & Thème
+codeo-green : hsl(123.8, 69.2%, 50.4%) (vert principal du branding)
+codeo-light-bg : rgba(44, 255, 0, 0.04) (fond léger pour éléments verts)
+codeo-login-bg : rgba(44, 255, 0, 0.25) (fond de connexion)
+Structure CSS Variables : Système complet avec hsl(var(--primary)), hsl(var(--ring)), etc.
+Design Tokens
+borderRadius :
+DEFAULT: '0.25rem' (4px) - éléments standard
+lg: 'var(--radius)' - composants principaux
+xl: '0.75rem' (12px) - cartes et sections
+full: '9999px' - éléments ronds (avatars, badges)
+md: 'calc(var(--radius) - 2px)' - éléments secondaires
+sm: 'calc(var(--radius) - 4px)' - éléments subtils
+Structure de Dossiers
+Composants Dashboard : app/dashboard/ (pages individuelles)
+Composants UI de Base : components/dashboard/ (Sidebar, Header, ProjectCard)
+Composants UI Partagés : components/ui/ (8 composants Shadcn)
+Types Globaux : Définition inline dans app/dashboard/(dashboard)/page.tsx
+Layout Dashboard : app/dashboard/layout.tsx
+Logique de Plan
+Variable : activePlan (type: 'starter' | 'pro' | 'business')
+Type Définition : PlanType = 'starter' | 'pro' | 'business'
+Fichier Définition : app/dashboard/(dashboard)/page.tsx (ligne 208)
+Contexte : PlanContext dans app/dashboard/layout.tsx
+Hook d'Accès : usePlan() exporté depuis layout
+Composants UI
+Bibliothèque : Shadcn UI (confirmé via components.json)
+Dossier Composants : components/ui/ (8 composants)
+Style : "new-york" avec CSS Variables activées
+Icônes : Lucide React (déclaré dans components.json)
+Base Color : "gray" pour le thème neutre
+Stack d'Animation
+Bibliothèque Principale : Framer Motion v12.27.0
+Usage : motion, AnimatePresence, useInView pour les transitions
+Animations : Cards reveal, hover effects, loading states
+Durations : 200-600ms avec ease-out/ease-in-out
+Autres : react-countup pour les compteurs numériques
+Stack Technique Complète
+Framework : Next.js 14.2.35
+Styling : Tailwind CSS avec Animate
+Icons : Lucide React + Heroicons React
+Forms : React Hook Form + Radix UI primitives
+Notifications : Sonner pour toasts
+Typography : @tailwindcss/typography
+Code Editor : Monaco Editor
+Syntax Highlighting : React Syntax Highlighter
+Typewriter Effect : Pour animations texte

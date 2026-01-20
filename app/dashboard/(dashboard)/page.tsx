@@ -450,7 +450,7 @@ export default function DashboardPage() {
   return (
     <TooltipProvider>
       <Toaster position="top-right" richColors closeButton duration={3000} />
-      <div className="max-w-[1440px] mx-auto space-y-10 md:space-y-12 p-4 lg:p-8 relative">
+      <div className="max-w-[1440px] mx-auto space-y-10 p-4 lg:p-8 relative">
 
         {/* Toggle dev uniquement */}
         {isDevMode && (
@@ -481,7 +481,7 @@ export default function DashboardPage() {
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
               <div className="flex items-center justify-between w-full">
-                <h1 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+                <h1 className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
                   Heureux de vous revoir, Ken <span className="text-codeo-green">.</span>
                 </h1>
                 <p className="text-slate-500 dark:text-slate-400 font-medium mt-1 capitalize">
@@ -493,20 +493,20 @@ export default function DashboardPage() {
 
           {/* Recherche + filtre */}
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center">
-            <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400" />
+            <div className="relative flex-1 group">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-slate-400 group-focus-within:text-codeo-green transition-colors duration-200 z-10 pointer-events-none" />
               <Input
                 ref={searchInputRef}
                 placeholder="Rechercher un projet (nom, date...)"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
-                className="pl-10 bg-white dark:bg-slate-900 border-0 focus-visible:ring-0 focus-visible:ring-offset-0 shadow-sm"
+                className="pl-10 bg-white dark:bg-slate-900 focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:border-black/20 border border-black/10 transition-colors duration-200 hover:border-black/15 shadow-sm"
               />
               <div className="absolute right-3 top-1/2 -translate-y-1/2 hidden sm:flex items-center gap-1 text-xs text-muted-foreground">
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground opacity-100">
                   {navigator.platform.includes('Mac') ? '⌘' : 'Ctrl'}
                 </kbd>
-                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
+                <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-xs font-medium text-muted-foreground opacity-100">
                   K
                 </kbd>
               </div>
@@ -682,18 +682,18 @@ export default function DashboardPage() {
                     transition={{ delay: 0.4, duration: 0.6 }}
                     className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 p-7 shadow-sm"
                   >
-                    <h3 className="text-xs font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500 mb-6 flex items-center justify-between">
+                    <h3 className="text-sm font-black uppercase tracking-[0.25em] text-slate-400 dark:text-slate-500 mb-6 flex items-center justify-between">
                       Codeo Engine
                       <span className="size-2.5 rounded-full bg-codeo-green animate-pulse" />
                     </h3>
                     <div className="space-y-5">
                       <div className="flex items-center gap-4">
                         <div className="size-12 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl flex items-center justify-center text-codeo-green">
-                          <Zap className="size-6 fill-current" />
+                          <Zap className="size-5 fill-current" />
                         </div>
                         <div>
                           <p className="text-base font-black text-slate-900 dark:text-white">v4.2</p>
-                          <p className="text-xs text-slate-500 dark:text-slate-400 italic">Ultra-rapide • Stable</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-400 italic">Ultra-rapide • Stable</p>
                         </div>
                       </div>
                       <div className="p-4 bg-slate-50 dark:bg-slate-800/50 rounded-2xl">
@@ -729,9 +729,9 @@ export default function DashboardPage() {
                         { num: 3, title: "Exporte", desc: "Code prêt à l’emploi" },
                       ].map((step) => (
                         <li key={step.num} className="flex gap-4">
-                          <span className="text-lg font-black text-codeo-green/40 mt-0.5">{step.num}</span>
+                          <span className="text-base font-black text-codeo-green/40 mt-0.5">{step.num}</span>
                           <div>
-                            <p className="font-semibold text-slate-900 dark:text-white">{step.title}</p>
+                            <p className="text-sm font-semibold text-slate-900 dark:text-white">{step.title}</p>
                             <p className="text-sm text-slate-500 dark:text-slate-400">{step.desc}</p>
                           </div>
                         </li>
@@ -760,15 +760,15 @@ export default function DashboardPage() {
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-purple-100 dark:border-purple-900/30">
                           <div className="flex items-center gap-3 mb-2">
-                            <Activity size={18} className="text-purple-600" />
-                            <p className="font-semibold text-sm">Dernière activité</p>
+                            <Activity size={20} className="text-purple-600" />
+                            <p className="text-sm font-semibold">Dernière activité</p>
                           </div>
                           <p className="text-xl font-black text-purple-800">{config.team.lastActivity}</p>
                         </div>
                         <div className="bg-white dark:bg-slate-900 rounded-xl p-4 border border-purple-100 dark:border-purple-900/30">
                           <div className="flex items-center gap-3 mb-2">
-                            <Clock size={18} className="text-purple-600" />
-                            <p className="font-semibold text-sm">Usage cumulé</p>
+                            <Clock size={20} className="text-purple-600" />
+                            <p className="text-sm font-semibold">Usage cumulé</p>
                           </div>
                           <p className="text-xl font-black text-purple-800">{config.team.totalScans} scans</p>
                           <p className="text-sm text-purple-600 font-medium">+{config.team.totalTimeSaved} h gagnées</p>
@@ -804,13 +804,13 @@ function StatsSection({ config, activePlan }: { config: PlanConfig; activePlan: 
         <TooltipTrigger asChild>
           <motion.div 
             variants={card}
-            className="min-w-[240px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/50 p-6 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden"
+            className="min-w-[240px] bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700/50 p-5 shadow-sm hover:shadow-md transition-all duration-200 relative overflow-hidden"
           >
             <div className="flex flex-col h-full">
               {/* En-tête avec badge POPULAIRE intégré */}
               <div className="flex justify-between items-start mb-4">
                 <div>
-                  <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">
+                  <h3 className="text-base font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">
                     {activePlan === 'business' ? 'Votre abonnement' : 'Ton plan'}
                   </h3>
                   <div className="flex items-center gap-2 flex-wrap">
@@ -821,13 +821,13 @@ function StatsSection({ config, activePlan }: { config: PlanConfig; activePlan: 
                       <span className="text-sm font-medium text-slate-500">/mois</span>
                     </div>
                     {activePlan === 'business' && (
-                      <span className="bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 text-purple-800 dark:text-purple-200 text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
+                      <span className="bg-gradient-to-r from-purple-100 to-blue-100 dark:from-purple-900/30 dark:to-blue-900/30 text-purple-800 dark:text-purple-200 text-xs font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
                         POPULAIRE
                       </span>
                     )}
                   </div>
                 </div>
-                <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold ${config.badgeColor}`}>
+                <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${config.badgeColor}`}>
                   {config.name}
                 </span>
               </div>
@@ -898,12 +898,12 @@ function StatsSection({ config, activePlan }: { config: PlanConfig; activePlan: 
       {/* Carte 2 – Scans */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <motion.div variants={card} className="min-w-[240px] bg-white dark:bg-slate-900 rounded-2xl border p-6 shadow-sm hover:shadow-md transition-shadow">
-            <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">Scans IA ce mois</h3>
+          <motion.div variants={card} className="min-w-[240px] bg-white dark:bg-slate-900 rounded-2xl border p-5 shadow-sm hover:shadow-md transition-shadow">
+            <h3 className="text-base font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-4">Scans IA ce mois</h3>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-lg bg-codeo-green/10 text-codeo-green">
-                  <Zap size={24} fill="currentColor" />
+                  <Zap size={20} fill="currentColor" />
                 </div>
                 <div>
                   <p className="text-3xl font-black text-slate-900 dark:text-white">
@@ -980,16 +980,16 @@ function StatsSection({ config, activePlan }: { config: PlanConfig; activePlan: 
       {/* Carte 3 – Temps économisé et valeur */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <motion.div variants={card} className="min-w-[240px] bg-gradient-to-br from-codeo-green/10 to-emerald-100 dark:from-codeo-green/20 dark:to-emerald-950 rounded-2xl p-6 shadow-md border border-codeo-green/20">
-            <h3 className="text-sm font-black uppercase tracking-widest text-codeo-green mb-3">Temps & Valeur</h3>
+          <motion.div variants={card} className="min-w-[240px] bg-gradient-to-br from-codeo-green/10 to-emerald-100 dark:from-codeo-green/20 dark:to-emerald-950 rounded-2xl p-5 shadow-md border border-codeo-green/20">
+            <h3 className="text-base font-black uppercase tracking-widest text-codeo-green mb-3">Temps & Valeur</h3>
             <div className="flex items-center gap-4">
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-black text-slate-900 dark:text-white">9</div>
+                <div className="text-3xl font-black text-slate-900 dark:text-white">9</div>
                 <div className="text-sm font-medium text-slate-500 dark:text-slate-300">h</div>
               </div>
-              <div className="text-4xl font-medium text-slate-300 dark:text-slate-600">•</div>
+              <div className="text-3xl font-medium text-slate-300 dark:text-slate-600">•</div>
               <div className="flex flex-col items-center">
-                <div className="text-4xl font-black text-codeo-green">450€</div>
+                <div className="text-3xl font-black text-codeo-green">450€</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">économisés</div>
               </div>
             </div>
@@ -1010,12 +1010,12 @@ function StatsSection({ config, activePlan }: { config: PlanConfig; activePlan: 
       {/* Carte 5 – Efficacité et comparaison */}
       <Tooltip>
         <TooltipTrigger asChild>
-          <motion.div variants={card} className="min-w-[240px] bg-white dark:bg-slate-900 rounded-2xl border p-6 shadow-sm hover:shadow-md transition-shadow">
+          <motion.div variants={card} className="min-w-[240px] bg-white dark:bg-slate-900 rounded-2xl border p-5 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex justify-between items-start">
               <div>
-                <h3 className="text-sm font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Efficacité IA</h3>
+                <h3 className="text-base font-black uppercase tracking-widest text-slate-500 dark:text-slate-400 mb-1">Efficacité IA</h3>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black text-slate-900 dark:text-white">{config.avgEfficiency}</span>
+                  <span className="text-3xl font-black text-slate-900 dark:text-white">{config.avgEfficiency}</span>
                   <span className="text-2xl font-bold text-slate-600 dark:text-slate-400">%</span>
                 </div>
                 {config.avgEfficiency >= 95 ? (

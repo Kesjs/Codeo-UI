@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { ArrowLeft, Upload, Download, Copy, Settings, Play, Code, Image, Zap } from 'lucide-react'
+import { ArrowLeft, Upload, Download, Copy, Settings, Play, Code, Image, Zap, Atom, Triangle, FileText, Palette, Box } from 'lucide-react'
 import dynamic from 'next/dynamic'
 
 const MonacoEditor = dynamic(() => import('@monaco-editor/react'), { ssr: false })
@@ -25,13 +25,13 @@ function WelcomeComponent() {
   )
 }`)
 
-  const frameworks = [
-    { id: 'react', name: 'React', icon: '⚛️' },
-    { id: 'vue', name: 'Vue.js', icon: '🟢' },
-    { id: 'html', name: 'HTML/CSS', icon: '📄' },
-    { id: 'tailwind', name: 'Tailwind CSS', icon: '🎨' },
-    { id: 'bootstrap', name: 'Bootstrap', icon: '🅱️' }
-  ]
+const frameworks = [
+  { id: 'react', name: 'React', icon: Atom },
+  { id: 'vue', name: 'Vue.js', icon: Triangle },
+  { id: 'html', name: 'HTML/CSS', icon: FileText },
+  { id: 'tailwind', name: 'Tailwind CSS', icon: Palette },
+  { id: 'bootstrap', name: 'Bootstrap', icon: Box }
+]
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -155,7 +155,7 @@ export default GeneratedComponent`)
                   onClick={() => setSelectedFramework(framework.id)}
                   className="flex items-center space-x-2"
                 >
-                  <span>{framework.icon}</span>
+                  <framework.icon className="w-4 h-4" />
                   <span>{framework.name}</span>
                 </Button>
               ))}

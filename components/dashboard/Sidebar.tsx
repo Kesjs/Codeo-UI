@@ -25,6 +25,7 @@ import {
   Zap
 } from 'lucide-react'
 import Logo from '@/components/Logo'
+import { usePlan } from '@/app/dashboard/layout'
 
 interface SidebarProps {
   isOpen: boolean;
@@ -34,6 +35,7 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   const router = useRouter()
   const pathname = usePathname()
+  const { activePlan } = usePlan()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isCollapsed, setIsCollapsed] = useState(false)
   // Gestion du dépliage des sections
@@ -66,11 +68,20 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
     router.push('/dashboard/workbench')
   }
 
+  // Fonction pour vérifier l'accès selon le badge et le plan
+  const hasAccess = (badge: string | undefined, plan: string): boolean => {
+    if (!badge) return true // Pas de badge = accès libre
+    if (badge === 'Bientôt') return false // Toujours bloqué
+    if (badge === 'Business' && plan === 'business') return true
+    if (badge === 'Pro' && (plan === 'pro' || plan === 'business')) return true
+    return false
+  }
+
   // Composant pour les en-têtes de section
   const SectionHeader = ({ title, isOpen, onToggle, icon: Icon }: { title: string, isOpen: boolean, onToggle: () => void, icon: any }) => (
     <button 
       onClick={onToggle}
-      className={`w-full flex items-center justify-between px-3 py-3 text-[12px] font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200 group hover:bg-codeo-green/5 rounded-lg ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
+      className={`w-full flex items-center justify-between px-3 py-2.5 text-[13px] font-semibold text-slate-600 hover:text-slate-900 transition-all duration-200 group hover:bg-codeo-green/5 rounded-lg ${isCollapsed ? 'lg:flex-col lg:justify-center' : ''}`}
     >
       <div className={`flex items-center ${isCollapsed ? 'lg:flex-col' : 'gap-2'}`}>
         <Icon className="h-4 w-4" />
@@ -81,11 +92,15 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   )
 
   // Composant pour les items de navigation
-  const NavItem = ({ item }: { item: any }) => (
+  const NavItem = ({ item }: { item: any }) => {
+    const itemHasAccess = hasAccess(item.badge, activePlan)
+    const isBlocked = item.badge && !itemHasAccess
+    
+    return (
     <Link
       href={item.href}
       onClick={(e) => {
-        if (item.badge) {
+          if (isBlocked) {
           e.preventDefault();
           alert(`Fonctionnalité ${item.badge} disponible prochainement !`);
         }
@@ -96,7 +111,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           ? 'bg-codeo-green text-white font-medium shadow-md shadow-codeo-green/25 border border-codeo-green/20' 
           : 'text-slate-700 hover:bg-slate-100 hover:text-slate-900'
         }
-        ${item.badge ? 'cursor-not-allowed opacity-70' : ''}
+          ${isBlocked ? 'cursor-not-allowed opacity-70' : ''}
         ${isCollapsed ? 'lg:flex-col lg:justify-center lg:items-center' : ''}
       `}
     >
@@ -109,7 +124,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         <span className={`text-[14px] font-medium leading-none transition-all duration-500 ease-out ${isCollapsed ? 'lg:opacity-0 lg:scale-90 lg:translate-x-2 lg:absolute' : 'lg:opacity-100 lg:scale-100 lg:translate-x-0 lg:relative'}`}>{item.name}</span>
       </div>
       {item.badge && (
-        <span className={`text-[8px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded border
+        <span className={`text-[10px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded border
           ${item.badge === 'Bientôt' 
             ? 'bg-slate-100 text-slate-400 border-slate-200' 
             : 'bg-codeo-green/10 text-codeo-green border-codeo-green/20'}
@@ -119,6 +134,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       )}
     </Link>
   )
+  }
 
   return (
     <>
@@ -241,7 +257,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         </div>
 
         {/* NAVIGATION AREA (Invisible Scroll) */}
-        <div className="flex-1 px-3 overflow-y-auto scrollbar-hide space-y-3 pt-8">
+        <div className="flex-1 px-3 overflow-y-auto scrollbar-hide space-y-4 pt-8">
           <style jsx cursor-auto>{`
             .scrollbar-hide::-webkit-scrollbar { display: none; }
             .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
@@ -305,8 +321,8 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
             />
             {openSections.infra && (
               <div className="space-y-1 pl-3 ml-1 border-l-2 border-slate-200 dark:border-slate-700 animate-in fade-in slide-in-from-top-1 duration-200">
-                <NavItem item={{ name: 'Équipe', href: '#', icon: Users, badge: 'Business' }} />
-                <NavItem item={{ name: 'API & Webhooks', href: '#', icon: Terminal, badge: 'Pro' }} />
+                <NavItem item={{ name: 'Équipe', href: '/dashboard/team', icon: Users, badge: 'Business', current: pathname === '/dashboard/team' }} />
+                <NavItem item={{ name: 'API & Webhooks', href: '/dashboard/api', icon: Terminal, badge: 'Pro', current: pathname === '/dashboard/api' }} />
               </div>
             )}
           </div>
@@ -327,7 +343,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           
           <button
             onClick={() => router.push('/dashboard/settings')}
-            className={`w-full flex items-center gap-4 mb-5 p-3 rounded-xl hover:bg-slate-100 transition-all cursor-pointer group ${isCollapsed ? 'lg:hidden' : ''}`}
+            className={`w-full flex items-center gap-4 mb-4 p-3 rounded-xl hover:bg-slate-100 transition-all cursor-pointer group ${isCollapsed ? 'lg:hidden' : ''}`}
           >
             <div className="w-11 h-11 bg-white border border-slate-200 rounded-2xl flex items-center justify-center shadow-sm relative group">
               <User className="h-5 w-5 text-slate-400 group-hover:text-slate-600 transition-colors" />
